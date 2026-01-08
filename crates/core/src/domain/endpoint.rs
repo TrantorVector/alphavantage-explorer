@@ -18,7 +18,7 @@ pub enum EndpointName {
     // Quote
     GlobalQuote,
     SymbolSearch,
-    
+
     // Fundamentals
     Overview,
     IncomeStatement,
@@ -26,10 +26,10 @@ pub enum EndpointName {
     CashFlow,
     Earnings,
     ListingStatus,
-    
+
     // Intelligence
     NewsSentiment,
-    
+
     // Market Status
     MarketStatus,
     TopGainersLosers,
@@ -54,7 +54,14 @@ impl EndpointName {
     /// Determines if this endpoint is market-wide or ticker-specific.
     #[must_use]
     pub const fn is_market_wide(&self) -> bool {
-        matches!(self, Self::MarketStatus | Self::TopGainersLosers | Self::ListingStatus | Self::NewsSentiment | Self::SymbolSearch)
+        matches!(
+            self,
+            Self::MarketStatus
+                | Self::TopGainersLosers
+                | Self::ListingStatus
+                | Self::NewsSentiment
+                | Self::SymbolSearch
+        )
     }
 }
 
@@ -74,9 +81,8 @@ mod tests {
 
     #[test]
     fn test_deserialization() {
-        assert_eq!(
-            EndpointName::from_str("TIME_SERIES_INTRADAY").unwrap(),
-            EndpointName::TimeSeriesIntraday
-        );
+        let result = EndpointName::from_str("TIME_SERIES_INTRADAY");
+        assert!(result.is_ok());
+        assert_eq!(result.ok(), Some(EndpointName::TimeSeriesIntraday));
     }
 }

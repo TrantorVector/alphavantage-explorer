@@ -159,6 +159,7 @@ impl RateLimiter {
 }
 
 #[cfg(test)]
+#[allow(clippy::unwrap_used)]
 mod tests {
     use super::*;
     use std::env;
@@ -177,7 +178,7 @@ mod tests {
 
         // Consume all 25 tokens
         for i in 0..25 {
-            assert!(limiter.wait().await.is_ok(), "Call {} failed", i);
+            assert!(limiter.wait().await.is_ok(), "Call {i} failed");
         }
 
         // 26th call should fail
@@ -208,7 +209,7 @@ mod tests {
         // We can't inspect state directly as fields are private
         // But we can consume 20 more, then fail on 21st
         for i in 0..20 {
-            assert!(limiter.wait().await.is_ok(), "Reloaded call {} failed", i);
+            assert!(limiter.wait().await.is_ok(), "Reloaded call {i} failed");
         }
         assert!(matches!(
             limiter.wait().await,
