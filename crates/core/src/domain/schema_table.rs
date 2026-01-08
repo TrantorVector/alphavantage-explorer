@@ -14,11 +14,7 @@ pub struct SchemaTable {
 }
 
 impl SchemaTable {
-    pub fn new(
-        title: impl Into<String>,
-        headers: Vec<String>,
-        rows: Vec<Vec<String>>,
-    ) -> Self {
+    pub fn new(title: impl Into<String>, headers: Vec<String>, rows: Vec<Vec<String>>) -> Self {
         let rows_len = rows.len();
         Self {
             title: title.into(),

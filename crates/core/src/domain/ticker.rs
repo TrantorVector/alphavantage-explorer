@@ -35,9 +35,14 @@ impl TickerSymbol {
             return Err(ExplorerError::Validation("Ticker cannot be empty".into()));
         }
         if s.len() > 5 {
-            return Err(ExplorerError::Validation("Ticker too long (max 5 chars)".into()));
+            return Err(ExplorerError::Validation(
+                "Ticker too long (max 5 chars)".into(),
+            ));
         }
-        if !s.chars().all(|c| c.is_ascii_uppercase() || c.is_ascii_digit()) {
+        if !s
+            .chars()
+            .all(|c| c.is_ascii_uppercase() || c.is_ascii_digit())
+        {
             return Err(ExplorerError::Validation(
                 "Ticker must be uppercase alphanumeric".into(),
             ));

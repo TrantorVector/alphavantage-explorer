@@ -53,7 +53,10 @@ mod tests {
 
     #[test]
     fn test_serialization() {
-        assert_eq!(EndpointName::TimeSeriesDaily.to_string(), "TIME_SERIES_DAILY");
+        assert_eq!(
+            EndpointName::TimeSeriesDaily.to_string(),
+            "TIME_SERIES_DAILY"
+        );
         assert_eq!(EndpointName::GlobalQuote.to_string(), "GLOBAL_QUOTE");
     }
 

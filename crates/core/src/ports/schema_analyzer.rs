@@ -9,5 +9,9 @@ pub trait SchemaAnalyzer: Send + Sync {
     ///
     /// # Errors
     /// Returns `ExplorerError` if analysis fails.
-    fn compute_schema_diff(&self, current: &SchemaTable, expected: &SchemaTable) -> Result<Option<String>>;
+    fn compute_schema_diff(
+        &self,
+        current: &SchemaTable,
+        expected: &SchemaTable,
+    ) -> Result<Option<String>>;
 }
