@@ -1,0 +1,2 @@
+cognitive-complexity-threshold = 25
+doc-valid-idents = ["Alpha Vantage"]

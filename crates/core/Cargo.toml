@@ -1,0 +1,18 @@
+[package]
+name = "alphavantage_core"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+repository.workspace = true
+
+[dependencies]
+serde.workspace = true
+thiserror.workspace = true
+uuid.workspace = true
+chrono.workspace = true
+strum.workspace = true
+secrecy.workspace = true
+
+[lints]
+workspace = true

@@ -1,0 +1,6 @@
+edition = "2021"
+max_width = 100
+# imports_granularity = "Crate" # Unstable on some versions
+# group_imports = "StdExternalCrate" # Unstable
+# wrap_comments = true # Unstable
+# format_code_in_doc_comments = true # Unstable

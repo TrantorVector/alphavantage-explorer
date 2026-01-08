@@ -1,0 +1,41 @@
+[workspace]
+members = ["crates/core", "crates/client", "crates/cli"]
+resolver = "2"
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+authors = ["TrantorVector"]
+license = "MIT"
+repository = "https://github.com/TrantorVector/alphavantage-explorer"
+
+[workspace.dependencies]
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+tokio = { version = "1.0", features = ["full"] }
+reqwest = { version = "0.11", default-features = false, features = ["json", "rustls-tls"] }
+thiserror = "1.0"
+anyhow = "1.0"
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+uuid = { version = "1.0", features = ["v4", "serde"] }
+chrono = { version = "0.4", features = ["serde"] }
+secrecy = { version = "0.8", features = ["serde"] }
+strum = { version = "0.26", features = ["derive"] }
+clap = { version = "4.4", features = ["derive", "env"] }
+
+# Internal crate dependencies
+alphavantage_core = { path = "crates/core" }
+alphavantage_client = { path = "crates/client" }
+
+[workspace.lints.rust]
+unsafe_code = "forbid"
+
+[workspace.lints.clippy]
+unwrap_used = "deny"
+expect_used = "deny"
+panic = "deny"
+indexing_slicing = "deny"
+pedantic = { level = "warn", priority = -1 }
+nursery = { level = "warn", priority = -1 }
+all = { level = "warn", priority = -1 }
