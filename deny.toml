@@ -1,6 +1,6 @@
 [advisories]
-# Ignore specific advisory causing parse error (CVSS version 4.0 not supported)
-ignore = ["RUSTSEC-2024-0445"]
+# Ignored advisories
+ignore = []
 
 [licenses]
 # Allow-list of acceptable licenses
