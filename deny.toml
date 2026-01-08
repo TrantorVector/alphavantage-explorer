@@ -1,12 +1,9 @@
 [advisories]
-vulnerability = "deny"
-unmaintained = "warn"
-notice = "warn"
-ignore = []
+# Ignore specific advisory causing parse error (CVSS version 4.0 not supported)
+ignore = ["RUSTSEC-2024-0445"]
 
 [licenses]
-unlicensed = "deny"
-# We act as a permissive allow-list
+# Allow-list of acceptable licenses
 allow = [
     "MIT",
     "Apache-2.0",
