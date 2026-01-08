@@ -1,3 +1,6 @@
-pub fn hello() {
-    println!("Hello from Core!");
-}
+pub mod domain;
+pub mod error;
+pub mod ports;
+
+pub use domain::*;
+pub use error::ExplorerError;
