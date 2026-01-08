@@ -20,6 +20,16 @@ async fn test_mock_client_fixtures() {
     assert_eq!(json["Symbol"], "AAPL");
     assert_eq!(json["Sector"], "Technology");
 
+    // Test AAPL INCOME_STATEMENT
+    let resp = client.fetch_ticker_endpoint(EndpointName::IncomeStatement, &ticker, &api_key).await;
+    if let Err(e) = &resp {
+        println!("Error fetching AAPL INCOME_STATEMENT: {:?}", e);
+    }
+    assert!(resp.is_ok());
+    let json = resp.unwrap();
+    assert_eq!(json["symbol"], "AAPL");
+    assert!(json["annualReports"].as_array().unwrap().len() > 0);
+
     // Test Market TOP_GAINERS_LOSERS
     let resp = client
         .fetch_market_endpoint(EndpointName::TopGainersLosers, &api_key)

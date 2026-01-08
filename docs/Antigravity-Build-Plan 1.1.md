@@ -403,12 +403,14 @@ Report:
 - ⚠️ Any issues with rate limit persistence or HTTP handling
 ```
 
-### 3.2 Human Verification Checklist
+### 3.2 Preform Verification Checklist
 
-- [ ] Run `cargo test -p client` → all tests pass
-- [ ] Check `crates/client/fixtures/` → verify realistic JSON
-- [ ] Review rate limiter logs → confirm token tracking
-- [ ] Test token persistence: run test, kill, restart → tokens preserved
+- [x] Run `cargo test -p client` → all tests pass
+- [x] cargo clippy -p client -- -D warnings
+- [x] cargo fmt -p client -- --check
+- [x] Check `crates/client/fixtures/` → verify realistic JSON
+- [x] Review rate limiter logs → confirm token tracking
+- [x] Test token persistence: run test, kill, restart → tokens preserved
 
 ### 3.3 Git Workflow
 
