@@ -1,0 +1,30 @@
+{
+    "endpoint": "TopGainersLosers",
+    "top_gainers": [
+        {
+            "ticker": "TSLA",
+            "price": "200.00",
+            "change_amount": "10.00",
+            "change_percentage": "5.00%",
+            "volume": "100000000"
+        }
+    ],
+    "top_losers": [
+        {
+            "ticker": "MSFT",
+            "price": "400.00",
+            "change_amount": "-5.00",
+            "change_percentage": "-1.25%",
+            "volume": "20000000"
+        }
+    ],
+    "most_actively_traded": [
+        {
+            "ticker": "AAPL",
+            "price": "180.00",
+            "change_amount": "1.00",
+            "change_percentage": "0.56%",
+            "volume": "50000000"
+        }
+    ]
+}

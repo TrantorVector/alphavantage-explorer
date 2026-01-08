@@ -18,9 +18,21 @@ pub enum EndpointName {
     // Quote
     GlobalQuote,
     SymbolSearch,
-
+    
+    // Fundamentals
+    Overview,
+    IncomeStatement,
+    BalanceSheet,
+    CashFlow,
+    Earnings,
+    ListingStatus,
+    
+    // Intelligence
+    NewsSentiment,
+    
     // Market Status
     MarketStatus,
+    TopGainersLosers,
 
     // Forex (currency)
     FxIntraday,
@@ -42,7 +54,7 @@ impl EndpointName {
     /// Determines if this endpoint is market-wide or ticker-specific.
     #[must_use]
     pub const fn is_market_wide(&self) -> bool {
-        matches!(self, Self::MarketStatus)
+        matches!(self, Self::MarketStatus | Self::TopGainersLosers | Self::ListingStatus | Self::NewsSentiment | Self::SymbolSearch)
     }
 }
 

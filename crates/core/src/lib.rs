@@ -4,3 +4,4 @@ pub mod ports;
 
 pub use domain::*;
 pub use error::ExplorerError;
+pub use error::Result;
