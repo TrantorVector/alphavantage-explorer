@@ -279,7 +279,7 @@ Report:
 - ⚠️ Any design decisions or trade-offs made
 ```
 
-### 2.2 Human Verification Checklist
+### 2.2 Perform the folllowing Verification Checklist
 
 - [ ] Run `cargo test -p core` → all tests pass
 - [ ] Run `cargo doc -p core --open` → review documentation quality
