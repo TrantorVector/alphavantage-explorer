@@ -53,7 +53,7 @@ mod tests {
     #[test]
     fn test_debug_redaction() {
         let key = ApiKey::new("my_secret_key");
-        assert_eq!(format!("{:?}", key), "[REDACTED]");
+        assert_eq!(format!("{key:?}"), "[REDACTED]");
     }
 
     #[test]
