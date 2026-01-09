@@ -1,0 +1,25 @@
+{
+    "Meta Data": {
+        "1. Information": "Daily Prices (open, high, low, close) and Volumes",
+        "2. Symbol": "MU",
+        "3. Last Refreshed": "2024-01-26",
+        "4. Output Size": "Compact",
+        "5. Time Zone": "US/Eastern"
+    },
+    "Time Series (Daily)": {
+        "2024-01-26": {
+            "1. open": "86.42",
+            "2. high": "88.14",
+            "3. low": "86.15",
+            "4. close": "87.26",
+            "5. volume": "18934762"
+        },
+        "2024-01-25": {
+            "1. open": "84.15",
+            "2. high": "86.05",
+            "3. low": "83.89",
+            "4. close": "85.61",
+            "5. volume": "19562841"
+        }
+    }
+}

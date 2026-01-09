@@ -1,0 +1,24 @@
+{
+    "Meta Data": {
+        "1. Information": "Weekly Prices (open, high, low, close) and Volumes",
+        "2. Symbol": "NVDA",
+        "3. Last Refreshed": "2024-01-26",
+        "4. Time Zone": "US/Eastern"
+    },
+    "Weekly Time Series": {
+        "2024-01-26": {
+            "1. open": "599.04",
+            "2. high": "836.66",
+            "3. low": "594.28",
+            "4. close": "829.74",
+            "5. volume": "318746582"
+        },
+        "2024-01-19": {
+            "1. open": "535.00",
+            "2. high": "599.80",
+            "3. low": "515.22",
+            "4. close": "613.62",
+            "5. volume": "391275438"
+        }
+    }
+}

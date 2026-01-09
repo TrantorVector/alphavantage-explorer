@@ -1,0 +1,24 @@
+{
+    "Meta Data": {
+        "1. Information": "Monthly Prices (open, high, low, close) and Volumes",
+        "2. Symbol": "NVDA",
+        "3. Last Refreshed": "2024-01-26",
+        "4. Time Zone": "US/Eastern"
+    },
+    "Monthly Time Series": {
+        "2024-01-26": {
+            "1. open": "495.22",
+            "2. high": "836.66",
+            "3. low": "454.49",
+            "4. close": "829.74",
+            "5. volume": "1442987621"
+        },
+        "2023-12-29": {
+            "1. open": "467.70",
+            "2. high": "504.50",
+            "3. low": "435.93",
+            "4. close": "495.22",
+            "5. volume": "1089456321"
+        }
+    }
+}

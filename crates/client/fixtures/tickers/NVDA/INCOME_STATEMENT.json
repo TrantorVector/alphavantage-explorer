@@ -1,0 +1,34 @@
+{
+    "symbol": "NVDA",
+    "annualReports": [
+        {
+            "fiscalDateEnding": "2024-01-28",
+            "reportedCurrency": "USD",
+            "grossProfit": "40858000000",
+            "totalRevenue": "60922000000",
+            "costOfRevenue": "20064000000",
+            "costofGoodsAndServicesSold": "20064000000",
+            "operatingIncome": "32973000000",
+            "sellingGeneralAndAdministrative": "3572000000",
+            "researchAndDevelopment": "4313000000",
+            "operatingExpenses": "7885000000",
+            "investmentIncomeNet": "866000000",
+            "netInterestIncome": "866000000",
+            "interestIncome": "866000000",
+            "interestExpense": "257000000",
+            "nonInterestIncome": "60066000000",
+            "otherNonOperatingIncome": "0",
+            "depreciation": "1544000000",
+            "depreciationAndAmortization": "1544000000",
+            "incomeBeforeTax": "33582000000",
+            "incomeTaxExpense": "4058000000",
+            "interestAndDebtExpense": "257000000",
+            "netIncomeFromContinuingOperations": "29524000000",
+            "comprehensiveIncomeNetOfTax": "29524000000",
+            "ebit": "33839000000",
+            "ebitda": "35383000000",
+            "netIncome": "29524000000"
+        }
+    ],
+    "quarterlyReports": []
+}

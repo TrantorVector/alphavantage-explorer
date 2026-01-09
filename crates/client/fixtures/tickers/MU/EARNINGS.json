@@ -1,0 +1,23 @@
+{
+    "symbol": "MU",
+    "annualEarnings": [
+        {
+            "fiscalDateEnding": "2023-08-31",
+            "reportedEPS": "-1.01"
+        },
+        {
+            "fiscalDateEnding": "2022-09-01",
+            "reportedEPS": "8.14"
+        }
+    ],
+    "quarterlyEarnings": [
+        {
+            "fiscalDateEnding": "2023-11-30",
+            "reportedDate": "2023-12-20",
+            "reportedEPS": "-1.07",
+            "estimatedEPS": "-1.13",
+            "surprise": "0.06",
+            "surprisePercentage": "5.3097"
+        }
+    ]
+}

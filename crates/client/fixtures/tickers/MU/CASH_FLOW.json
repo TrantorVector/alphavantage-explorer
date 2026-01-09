@@ -1,0 +1,37 @@
+{
+    "symbol": "MU",
+    "annualReports": [
+        {
+            "fiscalDateEnding": "2023-08-31",
+            "reportedCurrency": "USD",
+            "operatingCashflow": "4017000000",
+            "paymentsForOperatingActivities": null,
+            "proceedsFromOperatingActivities": null,
+            "changeInOperatingLiabilities": "-1442000000",
+            "changeInOperatingAssets": "3155000000",
+            "depreciationDepletionAndAmortization": "4126000000",
+            "capitalExpenditures": "-7689000000",
+            "changeInReceivables": "878000000",
+            "changeInInventory": "2344000000",
+            "profitLoss": "-1107000000",
+            "cashflowFromInvestment": "-7877000000",
+            "cashflowFromFinancing": "2055000000",
+            "proceedsFromRepaymentsOfShortTermDebt": null,
+            "paymentsForRepurchaseOfCommonStock": "-627000000",
+            "paymentsForRepurchaseOfEquity": "-627000000",
+            "paymentsForRepurchaseOfPreferredStock": null,
+            "dividendPayout": "0",
+            "dividendPayoutCommonStock": "0",
+            "dividendPayoutPreferredStock": null,
+            "proceedsFromIssuanceOfCommonStock": "96000000",
+            "proceedsFromIssuanceOfLongTermDebtAndCapitalSecuritiesNet": "2500000000",
+            "proceedsFromIssuanceOfPreferredStock": null,
+            "proceedsFromRepurchaseOfEquity": "-627000000",
+            "proceedsFromSaleOfTreasuryStock": null,
+            "changeInCashAndCashEquivalents": "-1805000000",
+            "changeInExchangeRate": null,
+            "netIncome": "-1107000000"
+        }
+    ],
+    "quarterlyReports": []
+}

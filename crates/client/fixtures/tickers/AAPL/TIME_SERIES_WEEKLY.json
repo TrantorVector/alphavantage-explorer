@@ -1,0 +1,24 @@
+{
+    "Meta Data": {
+        "1. Information": "Weekly Prices (open, high, low, close) and Volumes",
+        "2. Symbol": "AAPL",
+        "3. Last Refreshed": "2024-01-26",
+        "4. Time Zone": "US/Eastern"
+    },
+    "Weekly Time Series": {
+        "2024-01-26": {
+            "1. open": "182.16",
+            "2. high": "188.63",
+            "3. low": "180.93",
+            "4. close": "187.44",
+            "5. volume": "261838642"
+        },
+        "2024-01-19": {
+            "1. open": "182.34",
+            "2. high": "186.95",
+            "3. low": "180.57",
+            "4. close": "182.68",
+            "5. volume": "290745369"
+        }
+    }
+}

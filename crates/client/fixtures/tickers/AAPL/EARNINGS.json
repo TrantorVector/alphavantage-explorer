@@ -1,0 +1,23 @@
+{
+    "symbol": "AAPL",
+    "annualEarnings": [
+        {
+            "fiscalDateEnding": "2023-09-30",
+            "reportedEPS": "6.16"
+        },
+        {
+            "fiscalDateEnding": "2022-09-24",
+            "reportedEPS": "6.11"
+        }
+    ],
+    "quarterlyEarnings": [
+        {
+            "fiscalDateEnding": "2023-12-30",
+            "reportedDate": "2024-02-01",
+            "reportedEPS": "2.18",
+            "estimatedEPS": "2.10",
+            "surprise": "0.08",
+            "surprisePercentage": "3.8095"
+        }
+    ]
+}

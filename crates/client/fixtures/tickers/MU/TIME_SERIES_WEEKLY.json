@@ -1,0 +1,24 @@
+{
+    "Meta Data": {
+        "1. Information": "Weekly Prices (open, high, low, close) and Volumes",
+        "2. Symbol": "MU",
+        "3. Last Refreshed": "2024-01-26",
+        "4. Time Zone": "US/Eastern"
+    },
+    "Weekly Time Series": {
+        "2024-01-26": {
+            "1. open": "84.50",
+            "2. high": "88.14",
+            "3. low": "82.36",
+            "4. close": "87.26",
+            "5. volume": "108345972"
+        },
+        "2024-01-19": {
+            "1. open": "88.92",
+            "2. high": "91.49",
+            "3. low": "83.13",
+            "4. close": "85.10",
+            "5. volume": "115627384"
+        }
+    }
+}

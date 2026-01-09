@@ -1,0 +1,24 @@
+{
+    "Meta Data": {
+        "1. Information": "Monthly Prices (open, high, low, close) and Volumes",
+        "2. Symbol": "MU",
+        "3. Last Refreshed": "2024-01-26",
+        "4. Time Zone": "US/Eastern"
+    },
+    "Monthly Time Series": {
+        "2024-01-26": {
+            "1. open": "84.86",
+            "2. high": "97.10",
+            "3. low": "78.73",
+            "4. close": "87.26",
+            "5. volume": "484972156"
+        },
+        "2023-12-29": {
+            "1. open": "70.42",
+            "2. high": "87.73",
+            "3. low": "68.94",
+            "4. close": "84.86",
+            "5. volume": "523846219"
+        }
+    }
+}

@@ -1,0 +1,37 @@
+{
+    "symbol": "NVDA",
+    "annualReports": [
+        {
+            "fiscalDateEnding": "2024-01-28",
+            "reportedCurrency": "USD",
+            "operatingCashflow": "28695000000",
+            "paymentsForOperatingActivities": null,
+            "proceedsFromOperatingActivities": null,
+            "changeInOperatingLiabilities": "7452000000",
+            "changeInOperatingAssets": "-5844000000",
+            "depreciationDepletionAndAmortization": "1544000000",
+            "capitalExpenditures": "-1069000000",
+            "changeInReceivables": "-5839000000",
+            "changeInInventory": "-3181000000",
+            "profitLoss": "29524000000",
+            "cashflowFromInvestment": "-24019000000",
+            "cashflowFromFinancing": "-6594000000",
+            "proceedsFromRepaymentsOfShortTermDebt": null,
+            "paymentsForRepurchaseOfCommonStock": "-9532000000",
+            "paymentsForRepurchaseOfEquity": "-9532000000",
+            "paymentsForRepurchaseOfPreferredStock": null,
+            "dividendPayout": "-396000000",
+            "dividendPayoutCommonStock": "-396000000",
+            "dividendPayoutPreferredStock": null,
+            "proceedsFromIssuanceOfCommonStock": "3334000000",
+            "proceedsFromIssuanceOfLongTermDebtAndCapitalSecuritiesNet": "0",
+            "proceedsFromIssuanceOfPreferredStock": null,
+            "proceedsFromRepurchaseOfEquity": "-9532000000",
+            "proceedsFromSaleOfTreasuryStock": null,
+            "changeInCashAndCashEquivalents": "-1918000000",
+            "changeInExchangeRate": null,
+            "netIncome": "29524000000"
+        }
+    ],
+    "quarterlyReports": []
+}

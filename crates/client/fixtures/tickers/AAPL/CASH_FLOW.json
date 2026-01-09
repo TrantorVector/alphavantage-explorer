@@ -1,0 +1,37 @@
+{
+    "symbol": "AAPL",
+    "annualReports": [
+        {
+            "fiscalDateEnding": "2023-09-30",
+            "reportedCurrency": "USD",
+            "operatingCashflow": "110543000000",
+            "paymentsForOperatingActivities": "-22298000000",
+            "proceedsFromOperatingActivities": null,
+            "changeInOperatingLiabilities": "25360000000",
+            "changeInOperatingAssets": "-8916000000",
+            "depreciationDepletionAndAmortization": "11519000000",
+            "capitalExpenditures": "-10959000000",
+            "changeInReceivables": "-1688000000",
+            "changeInInventory": "-1618000000",
+            "profitLoss": "96995000000",
+            "cashflowFromInvestment": "-7077000000",
+            "cashflowFromFinancing": "-108488000000",
+            "proceedsFromRepaymentsOfShortTermDebt": null,
+            "paymentsForRepurchaseOfCommonStock": "-77550000000",
+            "paymentsForRepurchaseOfEquity": "-77550000000",
+            "paymentsForRepurchaseOfPreferredStock": null,
+            "dividendPayout": "-15025000000",
+            "dividendPayoutCommonStock": "-15025000000",
+            "dividendPayoutPreferredStock": null,
+            "proceedsFromIssuanceOfCommonStock": null,
+            "proceedsFromIssuanceOfLongTermDebtAndCapitalSecuritiesNet": "5228000000",
+            "proceedsFromIssuanceOfPreferredStock": null,
+            "proceedsFromRepurchaseOfEquity": "-77550000000",
+            "proceedsFromSaleOfTreasuryStock": null,
+            "changeInCashAndCashEquivalents": "-3082000000",
+            "changeInExchangeRate": null,
+            "netIncome": "96995000000"
+        }
+    ],
+    "quarterlyReports": []
+}
