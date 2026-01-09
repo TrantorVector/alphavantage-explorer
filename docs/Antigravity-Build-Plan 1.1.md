@@ -759,7 +759,6 @@ Report:
 
 ```bash
 git checkout main
-git pull
 git checkout -b phase-6-cli-integration
 
 # After Antigravity completes
