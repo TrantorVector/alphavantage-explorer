@@ -58,14 +58,17 @@ fn generate_overview_markdown() {
 
     let tables = parse_json_to_tables(EndpointName::Overview, &json).unwrap();
     let mut writer = MarkdownWriterImpl::new();
-    
+
     for table in tables {
         writer.write_table(&table).unwrap();
     }
-    
+
     // We print it to stdout so we can capture it for the report
-    println!("--- OVERVIEW MARKDOWN BEGIN ---\n{}\n--- OVERVIEW MARKDOWN END ---", writer.as_str());
-    
+    println!(
+        "--- OVERVIEW MARKDOWN BEGIN ---\n{}\n--- OVERVIEW MARKDOWN END ---",
+        writer.as_str()
+    );
+
     insta::assert_snapshot!("overview_report", writer.as_str());
 }
 
@@ -123,12 +126,15 @@ fn generate_income_statement_markdown() {
 
     let tables = parse_json_to_tables(EndpointName::IncomeStatement, &json).unwrap();
     let mut writer = MarkdownWriterImpl::new();
-    
+
     for table in tables {
         writer.write_table(&table).unwrap();
     }
-    
-    println!("--- INCOME STATEMENT MARKDOWN BEGIN ---\n{}\n--- INCOME STATEMENT MARKDOWN END ---", writer.as_str());
-    
+
+    println!(
+        "--- INCOME STATEMENT MARKDOWN BEGIN ---\n{}\n--- INCOME STATEMENT MARKDOWN END ---",
+        writer.as_str()
+    );
+
     insta::assert_snapshot!("income_statement_report", writer.as_str());
 }
