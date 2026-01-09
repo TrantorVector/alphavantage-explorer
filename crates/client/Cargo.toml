@@ -24,6 +24,8 @@ rand = "0.8" # For jitter
 [dev-dependencies]
 wiremock = "0.6"
 tokio = { workspace = true, features = ["full"] }
+insta = { version = "1.34", features = ["yaml"] }
+tempfile = "3.10"
 
 [lints]
 workspace = true

@@ -614,6 +614,8 @@ Report:
 ### 5.2 Human Verification Checklist
 
 - [ ] Run `cargo test -p client markdown` → all tests pass
+- [ ] cargo clippy -p client -- -D warnings
+- [ ] cargo fmt -p client -- --check
 - [ ] Run `cargo insta review` → accept snapshots if they look good
 - [ ] Copy sample Markdown to viewer (e.g., HackMD) → verify it renders beautifully
 
@@ -721,6 +723,8 @@ TASKS:
 
 VERIFICATION:
 1. cargo build --release (builds successfully)
+1a. run cargo fmt -p cli -- --check
+1c. run cargo clippy -p cli -- -D warnings
 2. ./target/release/alpha-vantage-explorer --help (shows help)
 3. Run in mock mode:
    ./target/release/alpha-vantage-explorer --symbols AAPL
@@ -741,9 +745,11 @@ Report:
 - 📁 Sample output structure (tree out/)
 ```
 
-### 6.2 Human Verification Checklist
+### 6.2 Run the Verification Checklist if not already done
 
 - [ ] Run `cargo build --release` → builds successfully
+- [ ] Run `cargo fmt -p cli -- --check` → no changes
+- [ ] Run `cargo clippy -p cli -- -D warnings` → no warnings
 - [ ] Run `./target/release/alpha-vantage-explorer --help` → shows usage
 - [ ] Run mock mode: `./target/release/alpha-vantage-explorer --symbols AAPL`
 - [ ] Check `out/tickers/AAPL.md` exists and looks good

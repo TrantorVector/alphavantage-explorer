@@ -1,0 +1,14 @@
+---
+source: crates/client/tests/markdown_gen.rs
+assertion_line: 133
+expression: writer.as_str()
+---
+## INCOME_STATEMENT - annualReports
+
+| comprehensiveIncomeNetOfTax | costOfRevenue | costofGoodsAndServicesSold | depreciation | depreciationAndAmortization | ebit | ebitda | fiscalDateEnding | grossProfit | incomeBeforeTax | incomeTaxExpense | interestAndDebtExpense | interestExpense | interestIncome | investmentIncomeNet | netIncome | netIncomeFromContinuingOperations | netInterestIncome | nonInterestIncome | operatingExpenses | operatingIncome | otherNonOperatingIncome | reportedCurrency | researchAndDevelopment | sellingGeneralAndAdministrative | totalRevenue |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 7878000000 | 29172000000 | 29172000000 | 4480000000 | 4480000000 | 10932000000 | 15412000000 | 2023-12-31 | 32688000000 | 8712000000 | 1205000000 | 2220000000 | 2220000000 | 1196000000 | None | 7502000000 | 7507000000 | -1024000000 | 218000000 | 29234000000 | 2626000000 | -667000000 | USD | 6986000000 | 18949000000 | 61860000000 |
+| N/A | N/A | N/A | N/A | N/A | N/A | N/A | 2022-12-31 | N/A | N/A | N/A | N/A | N/A | N/A | N/A | N/A | N/A | N/A | N/A | N/A | N/A | N/A | USD | N/A | N/A | 60530000000 |
+| N/A | N/A | N/A | N/A | N/A | N/A | N/A | 2021-12-31 | N/A | N/A | N/A | N/A | N/A | N/A | N/A | N/A | N/A | N/A | N/A | N/A | N/A | N/A | USD | N/A | N/A | 57350000000 |
+
+_(Showing 3 of 4 total records)_
