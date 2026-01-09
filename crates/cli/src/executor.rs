@@ -37,17 +37,21 @@ impl Executor {
             EndpointName::NewsSentiment, 
         ];
 
-        // 9 ticker-specific endpoints
+        // 13 ticker-specific endpoints per PRD
         let ticker_endpoints = [
             EndpointName::Overview,
             EndpointName::IncomeStatement,
             EndpointName::BalanceSheet,
             EndpointName::CashFlow,
             EndpointName::Earnings,
-            EndpointName::GlobalQuote,
-            EndpointName::TimeSeriesDaily,
-            EndpointName::TimeSeriesWeekly,
-            EndpointName::TimeSeriesMonthly,
+            EndpointName::EarningsEstimates,
+            EndpointName::NewsSentiment,
+            EndpointName::InsiderTransactions,
+            EndpointName::Dividends,
+            EndpointName::Splits,
+            EndpointName::SharesOutstanding,
+            EndpointName::EarningsCalendar,
+            EndpointName::EarningsCallTranscript,
         ];
 
         let total_tasks =

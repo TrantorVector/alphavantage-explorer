@@ -1,0 +1,34 @@
+{
+    "feed": [
+        {
+            "title": "Micron Sees Recovery in Memory Market",
+            "url": "https://example.com/news/5",
+            "time_published": "20240126T101500",
+            "summary": "Micron Technology indicates memory pricing stabilization and demand recovery ahead...",
+            "source": "Wall Street Journal",
+            "ticker_sentiment": [
+                {
+                    "ticker": "MU",
+                    "relevance_score": "0.93",
+                    "ticker_sentiment_score": "0.58",
+                    "ticker_sentiment_label": "Bullish"
+                }
+            ]
+        },
+        {
+            "title": "AI Server Demand Boosts HBM Memory Outlook",
+            "url": "https://example.com/news/6",
+            "time_published": "20240124T133000",
+            "summary": "High-bandwidth memory demand from AI applications expected to benefit Micron...",
+            "source": "Seeking Alpha",
+            "ticker_sentiment": [
+                {
+                    "ticker": "MU",
+                    "relevance_score": "0.86",
+                    "ticker_sentiment_score": "0.62",
+                    "ticker_sentiment_label": "Bullish"
+                }
+            ]
+        }
+    ]
+}

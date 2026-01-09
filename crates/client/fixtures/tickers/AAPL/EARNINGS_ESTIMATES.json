@@ -1,0 +1,17 @@
+{
+    "symbol": "AAPL",
+    "estimates": [
+        {
+            "fiscalDateEnding": "2024-03-31",
+            "reportDate": "2024-05-02",
+            "estimatedEPS": "1.43",
+            "numberOfAnalysts": "38"
+        },
+        {
+            "fiscalDateEnding": "2024-06-30",
+            "reportDate": "2024-08-01",
+            "estimatedEPS": "1.55",
+            "numberOfAnalysts": "36"
+        }
+    ]
+}

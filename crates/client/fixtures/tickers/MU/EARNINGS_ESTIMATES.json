@@ -1,0 +1,17 @@
+{
+    "symbol": "MU",
+    "estimates": [
+        {
+            "fiscalDateEnding": "2024-02-29",
+            "reportDate": "2024-03-20",
+            "estimatedEPS": "-0.42",
+            "numberOfAnalysts": "28"
+        },
+        {
+            "fiscalDateEnding": "2024-05-31",
+            "reportDate": "2024-06-26",
+            "estimatedEPS": "0.15",
+            "numberOfAnalysts": "27"
+        }
+    ]
+}

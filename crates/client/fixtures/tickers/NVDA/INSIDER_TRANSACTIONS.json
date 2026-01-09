@@ -1,0 +1,23 @@
+{
+    "symbol": "NVDA",
+    "transactions": [
+        {
+            "transactionDate": "2024-01-18",
+            "insider": "Jensen Huang",
+            "title": "CEO & President",
+            "transactionType": "Sale",
+            "shares": "120000",
+            "pricePerShare": "821.45",
+            "totalValue": "98574000"
+        },
+        {
+            "transactionDate": "2024-01-12",
+            "insider": "Colette M. Kress",
+            "title": "CFO",
+            "transactionType": "Sale",
+            "shares": "25000",
+            "pricePerShare": "795.20",
+            "totalValue": "19880000"
+        }
+    ]
+}

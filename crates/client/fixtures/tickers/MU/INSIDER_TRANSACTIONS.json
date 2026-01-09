@@ -1,0 +1,23 @@
+{
+    "symbol": "MU",
+    "transactions": [
+        {
+            "transactionDate": "2024-01-16",
+            "insider": "Sanjay Mehrotra",
+            "title": "President & CEO",
+            "transactionType": "Sale",
+            "shares": "35000",
+            "pricePerShare": "86.75",
+            "totalValue": "3036250"
+        },
+        {
+            "transactionDate": "2024-01-11",
+            "insider": "Mark J. Murphy",
+            "title": "CFO",
+            "transactionType": "Sale",
+            "shares": "15000",
+            "pricePerShare": "84.20",
+            "totalValue": "1263000"
+        }
+    ]
+}

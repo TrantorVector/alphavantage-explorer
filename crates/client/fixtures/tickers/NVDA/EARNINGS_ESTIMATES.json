@@ -1,0 +1,17 @@
+{
+    "symbol": "NVDA",
+    "estimates": [
+        {
+            "fiscalDateEnding": "2024-04-28",
+            "reportDate": "2024-05-22",
+            "estimatedEPS": "5.58",
+            "numberOfAnalysts": "42"
+        },
+        {
+            "fiscalDateEnding": "2024-07-28",
+            "reportDate": "2024-08-21",
+            "estimatedEPS": "6.12",
+            "numberOfAnalysts": "41"
+        }
+    ]
+}

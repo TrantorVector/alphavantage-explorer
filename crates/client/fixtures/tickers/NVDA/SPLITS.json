@@ -1,0 +1,17 @@
+{
+    "symbol": "NVDA",
+    "splits": [
+        {
+            "date": "2021-07-20",
+            "splitRatio": "4:1",
+            "preSplitPrice": "751.19",
+            "postSplitPrice": "187.80"
+        },
+        {
+            "date": "2007-09-11",
+            "splitRatio": "3:2",
+            "preSplitPrice": "37.89",
+            "postSplitPrice": "25.26"
+        }
+    ]
+}
