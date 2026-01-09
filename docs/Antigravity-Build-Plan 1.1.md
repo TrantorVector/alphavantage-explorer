@@ -614,6 +614,8 @@ Report:
 ### 5.2 Human Verification Checklist
 
 - [ ] Run `cargo test -p client markdown` → all tests pass
+- [ ] cargo clippy -p client -- -D warnings
+- [ ] cargo fmt -p client -- --check
 - [ ] Run `cargo insta review` → accept snapshots if they look good
 - [ ] Copy sample Markdown to viewer (e.g., HackMD) → verify it renders beautifully
 

@@ -1,0 +1,55 @@
+---
+source: crates/client/tests/markdown_gen.rs
+assertion_line: 69
+expression: writer.as_str()
+---
+## OVERVIEW
+
+| Field | Value |
+| --- | --- |
+| 200DayMovingAverage | 175.0 |
+| 50DayMovingAverage | 185.0 |
+| 52WeekHigh | 199.6 |
+| 52WeekLow | 124.1 |
+| Address | One Apple Park Way, Cupertino, CA, United States |
+| AnalystTargetPrice | 200.0 |
+| AssetType | Common Stock |
+| Beta | 1.2 |
+| BookValue | 4.5 |
+| CIK | 320193 |
+| Country | USA |
+| Currency | USD |
+| Description | Apple Inc. designs, manufactures, and markets smartphones... |
+| DilutedEPSTTM | 6.4 |
+| DividendDate | 2024-02-15 |
+| DividendPerShare | 0.95 |
+| DividendYield | 0.005 |
+| EBITDA | 130000000000 |
+| EPS | 6.4 |
+| EVToEBITDA | 22.5 |
+| EVToRevenue | 7.6 |
+| ExDividendDate | 2024-02-09 |
+| Exchange | NASDAQ |
+| FiscalYearEnd | September |
+| ForwardPE | 26.0 |
+| GrossProfitTTM | 170000000000 |
+| Industry | Consumer Electronics |
+| LatestQuarter | 2023-12-30 |
+| MarketCapitalization | 2800000000000 |
+| Name | Apple Inc |
+| OperatingMarginT | 0.30 |
+| PEGRatio | 2.1 |
+| PERatio | 28.5 |
+| PriceToBookRatio | 40.0 |
+| PriceToSalesRatioTTM | 7.5 |
+| ProfitMargin | 0.25 |
+| QuarterlyEarningsGrowthYOY | 0.05 |
+| QuarterlyRevenueGrowthYOY | 0.02 |
+| ReturnOnAssetsTTM | 0.20 |
+| ReturnOnEquityTTM | 1.50 |
+| RevenuePerShareTTM | 24.5 |
+| RevenueTTM | 385000000000 |
+| Sector | Technology |
+| SharesOutstanding | 15500000000 |
+| Symbol | AAPL |
+| TrailingPE | 28.5 |
