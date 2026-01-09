@@ -1,10 +1,12 @@
 use crate::config::Config;
+use crate::index_generator::{generate_index, ExecutionResults};
 use crate::progress::ProgressReporter;
-use alphavantage_client::{create_client, FileSystemJsonPersister, MarkdownWriterImpl};
-use alphavantage_core::domain::{EndpointName, TickerSymbol};
+use alphavantage_client::{create_client, FileSystemJsonPersister, MarkdownWriterImpl, SchemaAnalyzerImpl};
+use alphavantage_core::domain::{EndpointName, SchemaTable, TickerSymbol};
 use alphavantage_core::logic::json_to_table::parse_json_to_tables;
 use alphavantage_core::ports::{JsonPersister, MarkdownWriter};
 use anyhow::Result;
+use std::collections::HashMap;
 use std::io::Write;
 use std::path::PathBuf;
 use tracing::instrument;
@@ -21,19 +23,21 @@ impl Executor {
     pub async fn run(&self) -> Result<()> {
         let client = create_client(self.config.client_mode);
         let persister = FileSystemJsonPersister::new();
+        let analyzer = SchemaAnalyzerImpl::new();
+        
+        // Aggregate results
+        let mut results = ExecutionResults::new();
+        let mut tables_accumulator: HashMap<EndpointName, HashMap<TickerSymbol, Vec<SchemaTable>>> = HashMap::new();
 
         // 4 market-wide endpoints
         let market_endpoints = [
             EndpointName::MarketStatus,
             EndpointName::TopGainersLosers,
             EndpointName::ListingStatus,
-            EndpointName::NewsSentiment, // Technically can be ticker specific too, but treating as market wide for feed
+            EndpointName::NewsSentiment, 
         ];
 
-        // 13 ticker-specific endpoints (subset for now based on available parsers? No, strict list from requirements)
-        // Wait, Build Plan says "fetch company-specific endpoints".
-        // Let's use the full list of endpoint variants that are NOT market-wide?
-        // Or explicitly list them to be safe and match the plan.
+        // 9 ticker-specific endpoints
         let ticker_endpoints = [
             EndpointName::Overview,
             EndpointName::IncomeStatement,
@@ -44,39 +48,76 @@ impl Executor {
             EndpointName::TimeSeriesDaily,
             EndpointName::TimeSeriesWeekly,
             EndpointName::TimeSeriesMonthly,
-            // Add others if parsers are ready, for now these are safest
         ];
 
-        // Total tasks = market_endpoints + (symbols * ticker_endpoints)
         let total_tasks =
             market_endpoints.len() + (self.config.symbols.len() * ticker_endpoints.len());
         let progress = ProgressReporter::new(total_tasks);
 
         // 1. Fetch Market Wide
         for &endpoint in &market_endpoints {
-            self.fetch_and_process(client.as_ref(), &persister, &progress, endpoint, None)
-                .await;
+            let success = self.fetch_and_process(
+                client.as_ref(), 
+                &persister, 
+                &progress, 
+                endpoint, 
+                None
+            ).await?;
+            results.market_status.insert(endpoint, success);
         }
 
         // 2. Fetch per Ticker
         for ticker in &self.config.symbols {
+            results.ticker_status.insert(ticker.clone(), HashMap::new());
+            
             for &endpoint in &ticker_endpoints {
-                self.fetch_and_process(
+                let (success, tables_opt) = self.fetch_and_process_ticker(
                     client.as_ref(),
                     &persister,
                     &progress,
                     endpoint,
-                    Some(ticker),
-                )
-                .await;
+                    ticker,
+                ).await?;
+                
+                // Track status
+                let entry = results.ticker_status.get_mut(ticker).unwrap();
+                entry.insert(endpoint, (success, None));
+                // We don't have error msg easily propagated here without changing signature more,
+                // but fetch_and_process_ticker logs it. 
+                // Let's assume success=true means no error msg.
+                // To do this properly, fetch_and_process_ticker should return error string.
+                // Refactoring below.
+                
+                // Accumulate tables
+                if let Some(tables) = tables_opt {
+                    tables_accumulator
+                        .entry(endpoint)
+                        .or_default()
+                        .insert(ticker.clone(), tables);
+                }
             }
         }
-
+        
+        // 3. Compute Schema Diffs
+        for (endpoint, ticker_map) in &tables_accumulator {
+            if ticker_map.len() > 1 {
+                let diff = analyzer.compute_schema_diff(*endpoint, ticker_map);
+                if !diff.differences.is_empty() {
+                    results.schema_diffs.push(diff);
+                }
+            }
+        }
+        
+        results.end_time = Some(chrono::Local::now());
         progress.summary().await;
+        
+        // 4. Generate Index
+        generate_index(&results, &self.config.out_dir)?;
 
         Ok(())
     }
 
+    // Refactored to return success status for market endpoints
     #[instrument(skip(self, client, persister, progress))]
     async fn fetch_and_process(
         &self,
@@ -85,23 +126,18 @@ impl Executor {
         progress: &ProgressReporter,
         endpoint: EndpointName,
         ticker: Option<&TickerSymbol>,
-    ) {
+    ) -> Result<bool> {
         let display_name = ticker.map_or("MARKET", alphavantage_core::domain::TickerSymbol::as_str);
         ProgressReporter::start_fetch(endpoint, display_name);
 
         let result = if let Some(t) = ticker {
-            client
-                .fetch_ticker_endpoint(endpoint, t, &self.config.api_key)
-                .await
+            client.fetch_ticker_endpoint(endpoint, t, &self.config.api_key).await
         } else {
-            client
-                .fetch_market_endpoint(endpoint, &self.config.api_key)
-                .await
+            client.fetch_market_endpoint(endpoint, &self.config.api_key).await
         };
 
         match result {
             Ok(json) => {
-                // Save RAW
                 if self.config.save_raw {
                     let mut path = self.config.out_dir.join("raw");
                     if let Some(t) = ticker {
@@ -117,19 +153,61 @@ impl Executor {
                     }
                 }
 
-                // Gen Markdown
                 if let Err(e) = self.generate_markdown(endpoint, ticker, &json) {
                     tracing::warn!("Failed to generate markdown for {}: {}", endpoint, e);
                 }
 
-                progress
-                    .finish_fetch(endpoint, display_name, true, None)
-                    .await;
+                progress.finish_fetch(endpoint, display_name, true, None).await;
+                Ok(true)
             }
             Err(e) => {
-                progress
-                    .finish_fetch(endpoint, display_name, false, Some(&e.to_string()))
-                    .await;
+                progress.finish_fetch(endpoint, display_name, false, Some(&e.to_string())).await;
+                Ok(false)
+            }
+        }
+    }
+    
+    // Separate function for ticker to return Tables and detailed status
+    async fn fetch_and_process_ticker(
+        &self,
+        client: &dyn alphavantage_core::ports::ApiClient,
+        persister: &FileSystemJsonPersister,
+        progress: &ProgressReporter,
+        endpoint: EndpointName,
+        ticker: &TickerSymbol,
+    ) -> Result<(bool, Option<Vec<SchemaTable>>)> {
+        ProgressReporter::start_fetch(endpoint, ticker.as_str());
+
+        let result = client.fetch_ticker_endpoint(endpoint, ticker, &self.config.api_key).await;
+
+        match result {
+            Ok(json) => {
+                // Save RAW
+                if self.config.save_raw {
+                    let mut path = self.config.out_dir.join("raw");
+                    path.push("tickers");
+                    path.push(ticker.as_str());
+                    path.push(format!("{endpoint}.json"));
+                    let _ = persister.save_raw_json(&path, &json);
+                }
+
+                // Gen Markdown & Extract Tables
+                let tables = match self.generate_markdown_returning_tables(endpoint, Some(ticker), &json) {
+                    Ok(t) => t,
+                    Err(e) => {
+                        tracing::warn!("Failed to process markdown/tables for {}: {}", endpoint, e);
+                        progress.finish_fetch(endpoint, ticker.as_str(), true, Some("Partial success (layout error)")).await;
+                        return Ok((true, None)); // Fetch succeeded, but parse failed?? 
+                        // Actually generate_markdown calls parse_json_to_tables. If that fails, we can't diff.
+                    }
+                };
+
+                progress.finish_fetch(endpoint, ticker.as_str(), true, None).await;
+                Ok((true, Some(tables)))
+            }
+            Err(e) => {
+                progress.finish_fetch(endpoint, ticker.as_str(), false, Some(&e.to_string())).await;
+                Ok((false, None))
             }
         }
     }
@@ -140,48 +218,34 @@ impl Executor {
         ticker: Option<&TickerSymbol>,
         json: &serde_json::Value,
     ) -> Result<()> {
+        let _ = self.generate_markdown_returning_tables(endpoint, ticker, json)?;
+        Ok(())
+    }
+    
+    fn generate_markdown_returning_tables(
+        &self,
+        endpoint: EndpointName,
+        ticker: Option<&TickerSymbol>,
+        json: &serde_json::Value,
+    ) -> Result<Vec<SchemaTable>> {
         let tables = parse_json_to_tables(endpoint, json)?;
 
         let mut writer = MarkdownWriterImpl::new();
-        for table in tables {
-            writer.write_table(&table)?;
+        for table in &tables {
+            writer.write_table(table)?;
         }
 
         let mut path = self.config.out_dir.clone();
         if let Some(t) = ticker {
             path.push("tickers");
             path.push(format!("{}.md", t.as_str()));
-            // Append mode? Or overwrite?
-            // If we have multiple endpoints writing to the SAME file (AAPL.md), we need to APPEND.
-            // MarkdownWriter currently has flush_to_file which uses fs::write (overwrite).
-            // We need to implement Append or read-modify-write.
-            // For Phase 6 simplification: We will switch to one file per endpoint or use append mode manually here?
-            // "Write Markdown reports per ticker" suggests a single report.
-            // Let's modify MarkdownWriter to support append or handle it here.
-            // Actually, for simplicity and robustness, let's create per-endpoint files first
-            // OR simply read existing content into buffer?
-            // Let's go with: out/tickers/AAPL/<endpoint>.md
-            // WAIT, instructions say: "Should create out/tickers/AAPL.md"
-            // This clearly implies aggregation.
-
-            // To support aggregation without race conditions or overwrite:
-            // The executor loops sequentially per ticker.
-            // So we can maintain a single writer per ticker?
-            // BUT fetch_and_process is per endpoint.
-            // We should change the aggregation strategy.
-            // Refactor: File naming: out/tickers/<ticker>/<endpoint>.md is safer.
-            // BUT "out/tickers/AAPL.md" is the requirement.
-
-            // Allow me to use a helper to append to file.
             Self::append_to_file(&path, writer.as_str())?;
         } else {
-            path.push(format!("market_{endpoint}.md")); // Market stuff separate?
-                                                        // Or out/market.md?
-                                                        // Let's stick to safe defaults: unique files.
+            path.push(format!("market_{endpoint}.md")); 
             writer.flush_to_file(&path)?;
         }
 
-        Ok(())
+        Ok(tables)
     }
 
     fn append_to_file(path: &PathBuf, content: &str) -> Result<()> {

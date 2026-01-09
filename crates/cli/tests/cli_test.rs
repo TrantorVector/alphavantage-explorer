@@ -4,7 +4,7 @@ use std::fs;
 
 #[test]
 fn test_mock_mode_run() {
-    let mut cmd = Command::cargo_bin("alphavantage-cli").unwrap();
+    let mut cmd = Command::cargo_bin("alphavantage_cli").unwrap();
     
     // We use a temp dir for output to avoid clutter
     let temp_dir = tempfile::tempdir().unwrap();
@@ -35,7 +35,7 @@ fn test_mock_mode_run() {
 
 #[test]
 fn test_help() {
-    let mut cmd = Command::cargo_bin("alphavantage-cli").unwrap();
+    let mut cmd = Command::cargo_bin("alphavantage_cli").unwrap();
     cmd.arg("--help")
        .assert()
        .success()
@@ -44,9 +44,9 @@ fn test_help() {
 
 #[test]
 fn test_invalid_symbol() {
-    let mut cmd = Command::cargo_bin("alphavantage-cli").unwrap();
+    let mut cmd = Command::cargo_bin("alphavantage_cli").unwrap();
     cmd.arg("--symbols").arg("INVALID_SYMBOL_TOO_LONG")
        .assert()
        .failure()
-       .stderr(predicate::str::contains("Invalid ticker symbol"));
+       .stderr(predicate::str::contains("Ticker too long"));
 }

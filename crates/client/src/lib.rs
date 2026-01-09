@@ -4,9 +4,11 @@ pub mod markdown_writer;
 pub mod mock_client;
 pub mod rate_limiter;
 pub mod retry_policy;
+pub mod schema_analyzer;
 
 pub use json_persister::FileSystemJsonPersister;
 pub use markdown_writer::MarkdownWriterImpl;
+pub use schema_analyzer::SchemaAnalyzerImpl;
 
 use alphavantage_core::ports::ApiClient;
 use http_client::AlphaVantageClient;
