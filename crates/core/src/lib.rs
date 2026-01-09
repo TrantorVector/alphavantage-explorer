@@ -1,5 +1,6 @@
 pub mod domain;
 pub mod error;
+pub mod logic;
 pub mod ports;
 
 pub use domain::*;

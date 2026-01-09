@@ -509,9 +509,11 @@ Report:
 - 📊 Sample output for OVERVIEW and INCOME_STATEMENT (show table structure)
 ```
 
-### 4.2 Human Verification Checklist
+### 4.2 Run this Verification Checklist
 
 - [ ] Run `cargo test -p core --lib json_to_table` → all tests pass
+- [ ] cargo clippy -p core -- -D warnings
+- [ ] cargo fmt -p core -- --check
 - [ ] Review test output → verify table structures look correct
 - [ ] Spot-check: parse INCOME_STATEMENT fixture → verify all columns present
 
