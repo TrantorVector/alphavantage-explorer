@@ -18,6 +18,12 @@ pub struct ApiSection {
 #[derive(Debug, Deserialize, Clone)]
 pub struct RateLimitSection {
     pub daily_limit: u32,
+    #[serde(default = "default_min_delay")]
+    pub min_delay_ms: u64,
+}
+
+const fn default_min_delay() -> u64 {
+    1000
 }
 
 impl ApiConfig {
@@ -117,6 +123,27 @@ daily_limit = 50
         let config = ApiConfig::load_from_path(temp_file.path()).expect("Failed to load config");
         assert_eq!(config.api.api_key, "TEST_KEY_12345");
         assert_eq!(config.rate_limit.daily_limit, 50);
+        assert_eq!(config.rate_limit.min_delay_ms, 1000); // Default check
+    }
+
+    #[test]
+    fn test_explicit_delay() {
+        let mut temp_file = NamedTempFile::new().expect("Failed to create temp file");
+        writeln!(
+            temp_file,
+            r#"
+[api]
+api_key = "TEST_KEY"
+
+[rate_limit]
+daily_limit = 50
+min_delay_ms = 500
+"#
+        )
+        .expect("Failed to write to temp file");
+
+        let config = ApiConfig::load_from_path(temp_file.path()).expect("Failed to load config");
+        assert_eq!(config.rate_limit.min_delay_ms, 500);
     }
 
     #[test]

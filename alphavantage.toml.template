@@ -11,3 +11,8 @@ api_key = "YOUR_API_KEY_HERE"
 # Free tier: 25 calls/day
 # Premium tiers vary - check your plan at https://www.alphavantage.co/premium/
 daily_limit = 25
+
+# Minimum delay between API calls in milliseconds
+# Free tier: 1000ms (1 second)
+# Premium tiers: can be lower (e.g. 33ms for 30 calls/second)
+min_delay_ms = 1000

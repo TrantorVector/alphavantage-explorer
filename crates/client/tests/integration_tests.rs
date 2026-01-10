@@ -6,7 +6,7 @@ use alphavantage_core::domain::{ApiKey, EndpointName, TickerSymbol};
 #[tokio::test]
 async fn test_mock_client_fixtures() {
     let api_key = ApiKey::new("dummy");
-    let client = create_client(ClientMode::Mock, 25);
+    let client = create_client(ClientMode::Mock, 25, 0);
 
     // Test AAPL OVERVIEW
     let ticker = TickerSymbol::new("AAPL").unwrap();
