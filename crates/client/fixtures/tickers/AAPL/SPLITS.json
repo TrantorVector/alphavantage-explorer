@@ -1,0 +1,17 @@
+{
+    "symbol": "AAPL",
+    "splits": [
+        {
+            "date": "2020-08-31",
+            "splitRatio": "4:1",
+            "preSplitPrice": "499.23",
+            "postSplitPrice": "124.81"
+        },
+        {
+            "date": "2014-06-09",
+            "splitRatio": "7:1",
+            "preSplitPrice": "645.57",
+            "postSplitPrice": "92.22"
+        }
+    ]
+}

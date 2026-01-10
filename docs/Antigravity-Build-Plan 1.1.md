@@ -866,7 +866,6 @@ Report:
 
 ```bash
 git checkout main
-git pull
 git checkout -b phase-7-schema-diff
 
 # After Antigravity completes

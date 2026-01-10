@@ -1,4 +1,6 @@
 #![recursion_limit = "256"]
+#![allow(clippy::unwrap_used)]
+
 use alphavantage_client::MarkdownWriterImpl;
 use alphavantage_core::domain::EndpointName;
 use alphavantage_core::logic::json_to_table::parse_json_to_tables;

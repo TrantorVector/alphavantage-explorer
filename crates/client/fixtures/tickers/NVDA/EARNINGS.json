@@ -1,0 +1,43 @@
+{
+    "symbol": "NVDA",
+    "annualEarnings": [
+        {
+            "fiscalDateEnding": "2024-01-28",
+            "reportedEPS": "11.93"
+        },
+        {
+            "fiscalDateEnding": "2023-01-29",
+            "reportedEPS": "3.34"
+        },
+        {
+            "fiscalDateEnding": "2022-01-30",
+            "reportedEPS": "3.85"
+        }
+    ],
+    "quarterlyEarnings": [
+        {
+            "fiscalDateEnding": "2024-01-28",
+            "reportedDate": "2024-02-21",
+            "reportedEPS": "5.16",
+            "estimatedEPS": "4.64",
+            "surprise": "0.52",
+            "surprisePercentage": "11.2069"
+        },
+        {
+            "fiscalDateEnding": "2023-10-29",
+            "reportedDate": "2023-11-21",
+            "reportedEPS": "4.02",
+            "estimatedEPS": "3.37",
+            "surprise": "0.65",
+            "surprisePercentage": "19.2878"
+        },
+        {
+            "fiscalDateEnding": "2023-07-30",
+            "reportedDate": "2023-08-23",
+            "reportedEPS": "2.70",
+            "estimatedEPS": "2.09",
+            "surprise": "0.61",
+            "surprisePercentage": "29.1866"
+        }
+    ]
+}

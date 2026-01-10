@@ -1,0 +1,11 @@
+{
+    "symbol": "MU",
+    "splits": [
+        {
+            "date": "2000-04-04",
+            "splitRatio": "2:1",
+            "preSplitPrice": "97.50",
+            "postSplitPrice": "48.75"
+        }
+    ]
+}

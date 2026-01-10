@@ -1,0 +1,29 @@
+{
+    "symbol": "NVDA",
+    "dividends": [
+        {
+            "exDividendDate": "2023-12-05",
+            "paymentDate": "2023-12-28",
+            "declaredDate": "2023-11-20",
+            "amount": "0.04"
+        },
+        {
+            "exDividendDate": "2023-09-06",
+            "paymentDate": "2023-09-28",
+            "declaredDate": "2023-08-22",
+            "amount": "0.04"
+        },
+        {
+            "exDividendDate": "2023-06-07",
+            "paymentDate": "2023-06-29",
+            "declaredDate": "2023-05-24",
+            "amount": "0.04"
+        },
+        {
+            "exDividendDate": "2023-03-08",
+            "paymentDate": "2023-03-30",
+            "declaredDate": "2023-02-22",
+            "amount": "0.04"
+        }
+    ]
+}

@@ -1,0 +1,23 @@
+{
+    "symbol": "AAPL",
+    "transactions": [
+        {
+            "transactionDate": "2024-01-15",
+            "insider": "Timothy D. Cook",
+            "title": "CEO",
+            "transactionType": "Sale",
+            "shares": "750000",
+            "pricePerShare": "185.50",
+            "totalValue": "139125000"
+        },
+        {
+            "transactionDate": "2024-01-10",
+            "insider": "Luca Maestri",
+            "title": "CFO",
+            "transactionType": "Sale",
+            "shares": "50000",
+            "pricePerShare": "182.30",
+            "totalValue": "9115000"
+        }
+    ]
+}

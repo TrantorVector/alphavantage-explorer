@@ -1,6 +1,7 @@
 mod cli_args;
 mod config;
 mod executor;
+mod index_generator;
 mod progress;
 
 use crate::executor::Executor;

@@ -1,0 +1,34 @@
+{
+    "feed": [
+        {
+            "title": "NVIDIA's Data Center Revenue Soars on AI Demand",
+            "url": "https://example.com/news/3",
+            "time_published": "20240126T153000",
+            "summary": "NVIDIA reports exceptional data center growth driven by enterprise AI adoption...",
+            "source": "CNBC",
+            "ticker_sentiment": [
+                {
+                    "ticker": "NVDA",
+                    "relevance_score": "0.99",
+                    "ticker_sentiment_score": "0.85",
+                    "ticker_sentiment_label": "Bullish"
+                }
+            ]
+        },
+        {
+            "title": "Competition Heats Up in AI Chip Market",
+            "url": "https://example.com/news/4",
+            "time_published": "20240125T094500",
+            "summary": "New competitors emerge in AI accelerator space, challenging NVIDIA's dominance...",
+            "source": "TechCrunch",
+            "ticker_sentiment": [
+                {
+                    "ticker": "NVDA",
+                    "relevance_score": "0.78",
+                    "ticker_sentiment_score": "-0.25",
+                    "ticker_sentiment_label": "Somewhat-Bearish"
+                }
+            ]
+        }
+    ]
+}

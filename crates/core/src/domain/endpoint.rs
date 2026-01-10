@@ -25,6 +25,13 @@ pub enum EndpointName {
     BalanceSheet,
     CashFlow,
     Earnings,
+    EarningsEstimates,
+    InsiderTransactions,
+    Dividends,
+    Splits,
+    SharesOutstanding,
+    EarningsCalendar,
+    EarningsCallTranscript,
     ListingStatus,
 
     // Intelligence
