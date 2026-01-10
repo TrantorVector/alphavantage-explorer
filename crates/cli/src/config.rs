@@ -72,11 +72,12 @@ impl Config {
         // For bulk mode (no subcommand), use symbols or default to AAPL,NVDA,MU
         // For granular mode (has subcommand), symbols field won't be used
         let symbols = args.symbols.unwrap_or_else(|| {
-            vec![
-                TickerSymbol::new("AAPL").expect("valid"),
-                TickerSymbol::new("NVDA").expect("valid"),
-                TickerSymbol::new("MU").expect("valid"),
-            ]
+            // Safe to use from_static since we control these known-valid symbols
+            const DEFAULT_SYMBOLS: &[&str] = &["AAPL", "NVDA", "MU"];
+            DEFAULT_SYMBOLS
+                .iter()
+                .filter_map(|s| TickerSymbol::new(s).ok())
+                .collect()
         });
 
         Ok(Self {
