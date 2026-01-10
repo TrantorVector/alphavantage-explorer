@@ -49,7 +49,7 @@ impl RateLimiter {
         // This is acceptable for initialization or we should accept a constructor that returns Future.
         // For CLI tools, sync init is fine.
         let mut state = Self::load_state_sync(&state_path).unwrap_or_default();
-        
+
         // Update the daily limit if it has changed
         if state.daily_limit != daily_limit {
             info!(
