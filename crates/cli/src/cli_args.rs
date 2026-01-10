@@ -44,9 +44,9 @@ pub enum Commands {
     /// Fetch company overview (OVERVIEW endpoint)
     Overview {
         /// Stock ticker symbol
-        #[arg(short, long)]
+        #[arg(short, long, value_parser = parse_ticker)]
         symbol: TickerSymbol,
-        
+
         /// Output file path (optional, defaults to out_dir)
         #[arg(short, long)]
         output: Option<PathBuf>,
@@ -55,9 +55,9 @@ pub enum Commands {
     /// Fetch income statement (INCOME_STATEMENT endpoint)
     IncomeStatement {
         /// Stock ticker symbol
-        #[arg(short, long)]
+        #[arg(short, long, value_parser = parse_ticker)]
         symbol: TickerSymbol,
-        
+
         /// Output file path (optional)
         #[arg(short, long)]
         output: Option<PathBuf>,
@@ -66,9 +66,9 @@ pub enum Commands {
     /// Fetch balance sheet (BALANCE_SHEET endpoint)
     BalanceSheet {
         /// Stock ticker symbol
-        #[arg(short, long)]
+        #[arg(short, long, value_parser = parse_ticker)]
         symbol: TickerSymbol,
-        
+
         /// Output file path (optional)
         #[arg(short, long)]
         output: Option<PathBuf>,
@@ -77,9 +77,9 @@ pub enum Commands {
     /// Fetch cash flow statement (CASH_FLOW endpoint)
     CashFlow {
         /// Stock ticker symbol
-        #[arg(short, long)]
+        #[arg(short, long, value_parser = parse_ticker)]
         symbol: TickerSymbol,
-        
+
         /// Output file path (optional)
         #[arg(short, long)]
         output: Option<PathBuf>,
@@ -88,9 +88,9 @@ pub enum Commands {
     /// Fetch earnings data (EARNINGS endpoint)
     Earnings {
         /// Stock ticker symbol
-        #[arg(short, long)]
+        #[arg(short, long, value_parser = parse_ticker)]
         symbol: TickerSymbol,
-        
+
         /// Output file path (optional)
         #[arg(short, long)]
         output: Option<PathBuf>,
@@ -99,9 +99,9 @@ pub enum Commands {
     /// Fetch earnings estimates (EARNINGS_ESTIMATES endpoint)
     EarningsEstimates {
         /// Stock ticker symbol
-        #[arg(short, long)]
+        #[arg(short, long, value_parser = parse_ticker)]
         symbol: TickerSymbol,
-        
+
         /// Output file path (optional)
         #[arg(short, long)]
         output: Option<PathBuf>,
@@ -110,13 +110,13 @@ pub enum Commands {
     /// Fetch news sentiment (NEWS_SENTIMENT endpoint)
     NewsSentiment {
         /// Stock ticker symbol
-        #[arg(short, long)]
+        #[arg(short, long, value_parser = parse_ticker)]
         symbol: TickerSymbol,
-        
+
         /// Maximum number of news items to fetch
         #[arg(short, long, default_value_t = 50)]
         limit: u32,
-        
+
         /// Output file path (optional)
         #[arg(short, long)]
         output: Option<PathBuf>,
@@ -125,9 +125,9 @@ pub enum Commands {
     /// Fetch insider transactions (INSIDER_TRANSACTIONS endpoint)
     InsiderTransactions {
         /// Stock ticker symbol
-        #[arg(short, long)]
+        #[arg(short, long, value_parser = parse_ticker)]
         symbol: TickerSymbol,
-        
+
         /// Output file path (optional)
         #[arg(short, long)]
         output: Option<PathBuf>,
@@ -136,9 +136,9 @@ pub enum Commands {
     /// Fetch dividend history (DIVIDENDS endpoint)
     Dividends {
         /// Stock ticker symbol
-        #[arg(short, long)]
+        #[arg(short, long, value_parser = parse_ticker)]
         symbol: TickerSymbol,
-        
+
         /// Output file path (optional)
         #[arg(short, long)]
         output: Option<PathBuf>,
@@ -147,9 +147,9 @@ pub enum Commands {
     /// Fetch stock splits (SPLITS endpoint)
     Splits {
         /// Stock ticker symbol
-        #[arg(short, long)]
+        #[arg(short, long, value_parser = parse_ticker)]
         symbol: TickerSymbol,
-        
+
         /// Output file path (optional)
         #[arg(short, long)]
         output: Option<PathBuf>,
@@ -158,9 +158,9 @@ pub enum Commands {
     /// Fetch shares outstanding (SHARES_OUTSTANDING endpoint)
     SharesOutstanding {
         /// Stock ticker symbol
-        #[arg(short, long)]
+        #[arg(short, long, value_parser = parse_ticker)]
         symbol: TickerSymbol,
-        
+
         /// Output file path (optional)
         #[arg(short, long)]
         output: Option<PathBuf>,
@@ -169,13 +169,13 @@ pub enum Commands {
     /// Fetch earnings calendar (EARNINGS_CALENDAR endpoint)
     EarningsCalendar {
         /// Stock ticker symbol
-        #[arg(short, long)]
+        #[arg(short, long, value_parser = parse_ticker)]
         symbol: TickerSymbol,
-        
+
         /// Time horizon (3month, 6month, 12month)
         #[arg(short = 'H', long)]
         horizon: Option<HorizonParam>,
-        
+
         /// Output file path (optional)
         #[arg(short, long)]
         output: Option<PathBuf>,
@@ -184,17 +184,17 @@ pub enum Commands {
     /// Fetch earnings call transcript (EARNINGS_CALL_TRANSCRIPT endpoint)
     EarningsCallTranscript {
         /// Stock ticker symbol
-        #[arg(short, long)]
+        #[arg(short, long, value_parser = parse_ticker)]
         symbol: TickerSymbol,
-        
+
         /// Year of earnings call
         #[arg(short, long)]
         year: Option<u16>,
-        
+
         /// Quarter (Q1, Q2, Q3, Q4)
         #[arg(short, long)]
         quarter: Option<QuarterParam>,
-        
+
         /// Output file path (optional)
         #[arg(short, long)]
         output: Option<PathBuf>,

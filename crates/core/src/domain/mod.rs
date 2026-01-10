@@ -8,6 +8,6 @@ pub mod ticker;
 pub use api_key::ApiKey;
 pub use endpoint::EndpointName;
 pub use market_data::{ApiError, ApiResponse, ErrorKind};
-pub use params::{HorizonParam, QuarterParam, validate_year};
+pub use params::{validate_year, HorizonParam, QuarterParam};
 pub use schema_table::SchemaTable;
 pub use ticker::TickerSymbol;

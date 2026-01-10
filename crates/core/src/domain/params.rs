@@ -20,8 +20,7 @@ impl FromStr for QuarterParam {
             "Q3" => Ok(Self::Q3),
             "Q4" => Ok(Self::Q4),
             _ => Err(format!(
-                "Invalid quarter '{}'. Must be Q1, Q2, Q3, or Q4",
-                s
+                "Invalid quarter '{s}'. Must be Q1, Q2, Q3, or Q4"
             )),
         }
     }
@@ -55,8 +54,7 @@ impl FromStr for HorizonParam {
             "6month" | "6m" => Ok(Self::SixMonth),
             "12month" | "12m" => Ok(Self::TwelveMonth),
             _ => Err(format!(
-                "Invalid horizon '{}'. Must be 3month, 6month, or 12month",
-                s
+                "Invalid horizon '{s}'. Must be 3month, 6month, or 12month"
             )),
         }
     }
@@ -72,14 +70,16 @@ impl fmt::Display for HorizonParam {
     }
 }
 
-/// Validation for year parameter
+/// Validates a year parameter
+///
+/// # Errors
+/// Returns error if year is not between 1900 and 2100
 pub fn validate_year(year: u16) -> Result<u16, String> {
     if (1900..=2100).contains(&year) {
         Ok(year)
     } else {
         Err(format!(
-            "Invalid year {}. Must be between 1900 and 2100",
-            year
+            "Invalid year {year}. Must be between 1900 and 2100"
         ))
     }
 }
