@@ -7,3 +7,6 @@ Cargo.lock
 .idea
 .vscode
 ci-errors/
+
+# API configuration file (contains secrets)
+alphavantage.toml

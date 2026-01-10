@@ -22,21 +22,21 @@ impl AlphaVantageClient {
     /// Panics if the HTTP client builder fails (e.g. TLS backend issue).
     #[must_use]
     #[allow(clippy::expect_used)]
-    pub fn new() -> Self {
-        Self::with_base_url(BASE_URL)
+    pub fn new(daily_limit: u32) -> Self {
+        Self::with_base_url(BASE_URL, daily_limit)
     }
 
     /// # Panics
     /// Panics if the HTTP client builder fails.
     #[must_use]
     #[allow(clippy::expect_used)]
-    pub fn with_base_url(base_url: impl Into<String>) -> Self {
+    pub fn with_base_url(base_url: impl Into<String>, daily_limit: u32) -> Self {
         Self {
             http_client: Client::builder()
                 .timeout(Duration::from_secs(10))
                 .build()
                 .expect("Failed to build HTTP client"),
-            rate_limiter: Arc::new(RateLimiter::new()),
+            rate_limiter: Arc::new(RateLimiter::new(daily_limit)),
             base_url: base_url.into(),
         }
     }
@@ -44,7 +44,7 @@ impl AlphaVantageClient {
 
 impl Default for AlphaVantageClient {
     fn default() -> Self {
-        Self::new()
+        Self::new(25) // Default to free tier limit
     }
 }
 

@@ -23,6 +23,7 @@ chrono = { version = "0.4", features = ["serde"] }
 secrecy = { version = "0.8", features = ["serde"] }
 strum = { version = "0.26", features = ["derive"] }
 clap = { version = "4.4", features = ["derive", "env"] }
+toml = "0.8"
 
 # Internal crate dependencies
 alphavantage_core = { path = "crates/core" }

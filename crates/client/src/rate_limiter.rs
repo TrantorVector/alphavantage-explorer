@@ -6,20 +6,22 @@ use std::sync::Mutex;
 use tokio::fs;
 use tracing::{info, warn};
 
-const DAILY_LIMIT: u32 = 25;
+const DEFAULT_DAILY_LIMIT: u32 = 25;
 const STATE_FILENAME: &str = ".alphavantage-explorer-tokens.json";
 
 #[derive(Debug, Serialize, Deserialize)]
 struct TokenState {
     tokens_remaining: u32,
     last_reset: DateTime<Utc>,
+    daily_limit: u32,
 }
 
 impl Default for TokenState {
     fn default() -> Self {
         Self {
-            tokens_remaining: DAILY_LIMIT,
+            tokens_remaining: DEFAULT_DAILY_LIMIT,
             last_reset: Utc::now(),
+            daily_limit: DEFAULT_DAILY_LIMIT,
         }
     }
 }
@@ -31,22 +33,35 @@ pub struct RateLimiter {
 
 impl Default for RateLimiter {
     fn default() -> Self {
-        Self::new()
+        Self::new(DEFAULT_DAILY_LIMIT)
     }
 }
 
 impl RateLimiter {
     #[must_use]
-    pub fn new() -> Self {
-        Self::with_path(Self::resolve_state_path())
+    pub fn new(daily_limit: u32) -> Self {
+        Self::with_path(Self::resolve_state_path(), daily_limit)
     }
 
     #[must_use]
-    pub fn with_path(state_path: PathBuf) -> Self {
+    pub fn with_path(state_path: PathBuf, daily_limit: u32) -> Self {
         // We load synchronously on creation because new() is not async.
         // This is acceptable for initialization or we should accept a constructor that returns Future.
         // For CLI tools, sync init is fine.
-        let state = Self::load_state_sync(&state_path).unwrap_or_default();
+        let mut state = Self::load_state_sync(&state_path).unwrap_or_default();
+        
+        // Update the daily limit if it has changed
+        if state.daily_limit != daily_limit {
+            info!(
+                "Daily limit changed from {} to {}",
+                state.daily_limit, daily_limit
+            );
+            state.daily_limit = daily_limit;
+            // Reset tokens if the limit increased, otherwise keep current tokens
+            if daily_limit > state.tokens_remaining {
+                state.tokens_remaining = daily_limit;
+            }
+        }
 
         // Check reset logic requires mutation.
         let limiter = Self {
@@ -103,7 +118,7 @@ impl RateLimiter {
 
             if today > last_day {
                 info!("Resetting rate limit tokens for new day");
-                state.tokens_remaining = DAILY_LIMIT;
+                state.tokens_remaining = state.daily_limit;
                 state.last_reset = now;
             }
         }
@@ -127,7 +142,7 @@ impl RateLimiter {
             let now = Utc::now();
             if now.date_naive() > state.last_reset.date_naive() {
                 info!("Resetting rate limit tokens (midnight UTC passed)");
-                state.tokens_remaining = DAILY_LIMIT;
+                state.tokens_remaining = state.daily_limit;
                 state.last_reset = now;
             }
 
@@ -143,6 +158,7 @@ impl RateLimiter {
                     TokenState {
                         tokens_remaining: state.tokens_remaining,
                         last_reset: state.last_reset,
+                        daily_limit: state.daily_limit,
                     },
                 )
             } else {
@@ -174,7 +190,7 @@ mod tests {
     #[tokio::test]
     async fn test_rate_limiter_enforcement() {
         let path = get_temp_path();
-        let limiter = RateLimiter::with_path(path.clone());
+        let limiter = RateLimiter::with_path(path.clone(), 25);
 
         // Consume all 25 tokens
         for i in 0..25 {
@@ -196,7 +212,7 @@ mod tests {
         let path = get_temp_path();
 
         {
-            let limiter = RateLimiter::with_path(path.clone());
+            let limiter = RateLimiter::with_path(path.clone(), 25);
             // Consume 5
             for _ in 0..5 {
                 limiter.wait().await.unwrap();
@@ -204,7 +220,7 @@ mod tests {
         } // Drop limiter
 
         // Reload
-        let limiter = RateLimiter::with_path(path.clone());
+        let limiter = RateLimiter::with_path(path.clone(), 25);
         // Should have 20 left
         // We can't inspect state directly as fields are private
         // But we can consume 20 more, then fail on 21st

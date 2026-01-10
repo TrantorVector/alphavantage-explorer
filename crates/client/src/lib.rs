@@ -21,9 +21,9 @@ pub enum ClientMode {
 }
 
 #[must_use]
-pub fn create_client(mode: ClientMode) -> Box<dyn ApiClient> {
+pub fn create_client(mode: ClientMode, daily_limit: u32) -> Box<dyn ApiClient> {
     match mode {
-        ClientMode::Live => Box::new(AlphaVantageClient::new()),
+        ClientMode::Live => Box::new(AlphaVantageClient::new(daily_limit)),
         ClientMode::Mock => Box::new(MockAlphaVantageClient::new()),
     }
 }
