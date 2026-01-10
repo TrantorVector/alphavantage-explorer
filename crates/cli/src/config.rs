@@ -69,8 +69,19 @@ impl Config {
 
         let api_key = ApiKey::new(api_key_str);
 
+        // For bulk mode (no subcommand), use symbols or default to AAPL,NVDA,MU
+        // For granular mode (has subcommand), symbols field won't be used
+        let symbols = args.symbols.unwrap_or_else(|| {
+            // Safe to use from_static since we control these known-valid symbols
+            const DEFAULT_SYMBOLS: &[&str] = &["AAPL", "NVDA", "MU"];
+            DEFAULT_SYMBOLS
+                .iter()
+                .filter_map(|s| TickerSymbol::new(*s).ok())
+                .collect()
+        });
+
         Ok(Self {
-            symbols: args.symbols,
+            symbols,
             out_dir: args.out_dir,
             api_key,
             client_mode,
