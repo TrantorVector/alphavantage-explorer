@@ -88,8 +88,14 @@ mod tests {
 
     #[test]
     fn test_quarter_parsing() {
-        assert_eq!(QuarterParam::from_str("Q1").unwrap(), QuarterParam::Q1);
-        assert_eq!(QuarterParam::from_str("q2").unwrap(), QuarterParam::Q2);
+        assert!(matches!(
+            QuarterParam::from_str("Q1"),
+            Ok(QuarterParam::Q1)
+        ));
+        assert!(matches!(
+            QuarterParam::from_str("q2"),
+            Ok(QuarterParam::Q2)
+        ));
         assert!(QuarterParam::from_str("Q5").is_err());
         assert!(QuarterParam::from_str("invalid").is_err());
     }
@@ -102,20 +108,20 @@ mod tests {
 
     #[test]
     fn test_horizon_parsing() {
-        assert_eq!(
-            HorizonParam::from_str("3month").unwrap(),
-            HorizonParam::ThreeMonth
-        );
-        assert_eq!(
-            HorizonParam::from_str("3m").unwrap(),
-            HorizonParam::ThreeMonth
-        );
+        assert!(matches!(
+            HorizonParam::from_str("3month"),
+            Ok(HorizonParam::ThreeMonth)
+        ));
+        assert!(matches!(
+            HorizonParam::from_str("3m"),
+            Ok(HorizonParam::ThreeMonth)
+        ));
         assert!(HorizonParam::from_str("invalid").is_err());
     }
 
     #[test]
     fn test_year_validation() {
-        assert_eq!(validate_year(2024).unwrap(), 2024);
+        assert!(matches!(validate_year(2024), Ok(2024)));
         assert!(validate_year(1899).is_err());
         assert!(validate_year(2101).is_err());
     }
