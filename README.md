@@ -1,69 +1,124 @@
 # Alpha Vantage API Explorer
 
-A CLI tool to validate Alpha Vantage API endpoints and generate human-readable Markdown reports. This project is built using Rust and follows a Hexagonal Architecture (Ports & Adapters) to ensure maintainability and testability.
+**A high-performance CLI tool to validate, explore, and report on Alpha Vantage API data.**
 
-## 🚀 Overview
+Built with Rust, this tool enables developers and financial analysts to inspect API responses, track rate limits, and generate detailed Markdown reports for stock market data. It follows a Hexagonal Architecture for logic isolation and testability.
 
-The Alpha Vantage API Explorer allows developers and analysts to:
-- precise validation of Alpha Vantage API responses.
-- inspect data quality and consistency.
-- generate reports in Markdown format.
+## 🚀 Features
 
-## 🛠️ Build Instructions
+- **📊 Comprehensive Reporting**: Generates Markdown reports with tables, JSON schema analysis, and API health checks.
+- **⚡ Live & Mock Modes**: Switch seamlessly between live API data and built-in mock data for testing without burning credits.
+- **🛡️ Rate Limiting**: Smart token bucket algorithm enforces API limits (default 25 calls/day) with configurable per-request delays.
+- **🔍 Schema Validation**: Automatically detects and highlights schema changes or missing fields in API responses.
+- **⚙️ Configurable**: Flexible configuration via `alphavantage.toml` for API keys and rate limit settings.
+- **🔁 Robust Client**: Features auto-retry policies, timeout handling, and structured logging.
 
-### Prerequisites
-- [Rust](https://www.rust-lang.org/tools/install) (stable toolchain)
-- OpenSSL (libssl-dev on Ubuntu/Debian)
+## 📦 Installation
 
-### Steps
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/TrantorVector/alphavantage-explorer.git
-   cd alphavantage-explorer
-   ```
+Ensure you have [Rust](https://www.rust-lang.org/tools/install) installed.
 
-2. Build the project:
-   ```bash
-   cargo build --release
-   ```
+```bash
+# Clone the repository
+git clone https://github.com/TrantorVector/alphavantage-explorer.git
+cd alphavantage-explorer
+
+# Install the binary
+cargo install --path crates/cli
+```
+
+## 🚀 Quick Start
+
+### 1. Configure
+Create a configuration file:
+```bash
+cp alphavantage.toml.template alphavantage.toml
+# Edit alphavantage.toml to add your API Key
+```
+
+### 2. Run (Mock Mode)
+Test the tool without using your API key:
+```bash
+alphavantage_cli --symbols AAPL --out-dir ./report
+```
+
+### 3. Run (Live Mode)
+Fetch real data (consumes API credits):
+```bash
+alphavantage_cli --live-api --symbols NVDA,IBM --out-dir ./live-report
+```
+
+## 📖 Usage Guide
+
+### Command Line Options
+
+```bash
+alphavantage_cli [OPTIONS]
+```
+
+| Option | Description |
+|--------|-------------|
+| `-s, --symbols <SYMBOLS>` | Comma-separated list of stock tickers (e.g., `AAPL,MSFT`). |
+| `--live-api` | Enable live API calls. If omitted, uses Mock mode. |
+| `-o, --out-dir <PATH>` | directory to save reports (default: `./out`). |
+| `--log-format <TYPE>` | Log format: `full`, `compact`, `pretty`, or `json` (default: `pretty`). |
+
+### Rate Limiting
+
+The tool respects the **25 calls/day** limit of the free tier by default.
+- It tracks usage in a local state file.
+- You can configure custom limits in `alphavantage.toml`:
+
+```toml
+[rate_limit]
+daily_limit = 25
+min_delay_ms = 1000 # 1 second delay between calls
+```
+
+## 📂 Output Structure
+
+The tool generates a structured report directory:
+
+```text
+out/
+├── index.md                 # Dashboard summary
+├── market_MARKET_STATUS.md  # Global market endpoint reports
+├── tickers/
+│   ├── AAPL.md              # Detailed report for AAPL
+│   └── IBM.md               # Detailed report for IBM
+└── raw/                     # Raw JSON responses (for debugging)
+```
 
 ## ⚙️ Configuration
 
-### API Key Setup
-You need an Alpha Vantage API key to use this tool. Get a free key [here](https://www.alphavantage.co/support/#api-key).
+You can configure the tool using `alphavantage.toml` in the current directory:
 
-1. Copy the example environment file:
-   ```bash
-   cp .env.example .env
-   ```
+```toml
+[api]
+api_key = "YOUR_KEY_HERE"
 
-2. Edit `.env` and add your API key:
-   ```env
-   ALPHAVANTAGE_API_KEY=your_actual_key_here
-   ```
-
-## 📖 Usage
-
-> **Note:** This is a work in progress.
-
-```bash
-# Run the help command
-cargo run --bin alphavantage_cli -- --help
-
-# Example command (Placeholder)
-# cargo run --bin alphavantage_cli -- validate --symbol IBM
+[rate_limit]
+daily_limit = 25
+min_delay_ms = 1000
 ```
+
+*Alternatively, the standard `check` validation mode is active during builds.*
 
 ## 🏗️ Architecture
 
-This project is structured as a Cargo Workspace:
-- **crates/core**: Domain logic (Pure Rust, no I/O).
-- **crates/client**: HTTP adapters (reqwest).
-- **crates/cli**: Application layer (clap CLI).
+- **crates/core**: Domain entities (Ticker, ApiKey) and business logic.
+- **crates/client**: `reqwest` HTTP client, Rate Limiter, and Persistence.
+- **crates/cli**: Command-line interface and Orchestration.
 
-## 🛡️ Quality Assurance
+## 🤝 Contributing
 
-We enforce strict quality standards:
-- **Clippy**: Strict linting rules.
-- **Cargo Deny**: Supply chain security.
-- **Micro-dependencies**: Minimized dependency tree.
+Contributions are welcome! Please ensure you run the quality checks before submitting a PR:
+
+```bash
+cargo fmt
+cargo clippy
+cargo test
+```
+
+## 📄 License
+
+This project is licensed under the [MIT License](LICENSE).
