@@ -47,7 +47,65 @@ Fetch real data (consumes API credits):
 alphavantage_cli --live-api --symbols NVDA,IBM --out-dir ./live-report
 ```
 
-## 📖 Usage Guide
+## 📖 Usage Modes
+
+The tool supports two modes of operation:
+
+### Bulk Mode (Multi-Endpoint)
+
+Fetch all available endpoints for multiple symbols in one command. Perfect for comprehensive analysis.
+
+```bash
+# Mock mode (no API credits used)
+alphavantage_cli --symbols AAPL,NVDA,IBM --out-dir ./report
+
+# Live API mode
+alphavantage_cli --live-api --symbols AAPL,MSFT --out-dir ./live-report
+```
+
+**Features:**
+- Fetches all 13 company-specific endpoints per symbol
+- Output is truncated to top 3 rows for quick overview
+- Generates consolidated reports per ticker
+
+### Granular Mode (Single-Endpoint)
+
+Fetch a specific endpoint for a single symbol. Ideal for targeted data retrieval with **full output retention**.
+
+```bash
+# Fetch company overview
+alphavantage_cli overview --symbol AAPL
+
+# Fetch income statement with custom output directory
+alphavantage_cli income-statement --symbol NVDA --output ./financials
+
+# Fetch news sentiment with limit
+alphavantage_cli news-sentiment --symbol MSFT --limit 100
+```
+
+**Features:**
+- Targets one specific endpoint per command
+- **Full data retention** - all rows included (no truncation)
+- Timestamped output files
+- Fast and efficient
+
+### Endpoint Reference
+
+| Command | Description | Required | Optional | Output |
+|---------|-------------|----------|----------|--------|
+| `overview` | Company overview and fundamentals | `--symbol` | `--output` | JSON |
+| `income-statement` | Income statement (annual/quarterly) | `--symbol` | `--output` | JSON |
+| `balance-sheet` | Balance sheet data | `--symbol` | `--output` | JSON |
+| `cash-flow` | Cash flow statement | `--symbol` | `--output` | JSON |
+| `earnings` | Earnings data | `--symbol` | `--output` | JSON |
+| `earnings-estimates` | Earnings estimates | `--symbol` | `--output` | JSON |
+| `news-sentiment` | News sentiment analysis | `--symbol` | `--limit`, `--output` | JSON |
+| `insider-transactions` | Insider trading activity | `--symbol` | `--output` | JSON |
+| `dividends` | Dividend history | `--symbol` | `--output` | JSON |
+| `splits` | Stock split history | `--symbol` | `--output` | JSON |
+| `shares-outstanding` | Shares outstanding over time | `--symbol` | `--output` | JSON |
+| `earnings-calendar` | Upcoming earnings dates | `--symbol` | `--horizon`, `--output` | CSV |
+| `earnings-call-transcript` | Earnings call transcripts | `--symbol` | `--year`, `--quarter`, `--output` | JSON |
 
 ### Command Line Options
 
@@ -87,6 +145,34 @@ out/
 │   └── IBM.md               # Detailed report for IBM
 └── raw/                     # Raw JSON responses (for debugging)
 ```
+
+### Granular Mode Output
+
+Granular commands generate timestamped files:
+
+```text
+out/
+├── overview_AAPL_20260110_230045.md       # Markdown report
+└── raw/
+    └── overview_AAPL_20260110_230045.json # Raw JSON
+```
+
+## 📄 Output Formats
+
+### JSON Output
+
+Most endpoints return JSON data, which is processed into:
+- **Raw JSON**: Saved to `out/raw/{filename}.json` for programmatic access
+- **Markdown Tables**: Saved to `out/{filename}.md` for human readability
+  - **Bulk mode**: Top 3 rows (quick overview)
+  - **Granular mode**: **All rows** (full data retention)
+
+### CSV Output
+
+Some endpoints (e.g., `earnings-calendar`) return CSV format:
+- **Raw CSV**: Saved to `out/raw/{filename}.csv`
+- **No markdown conversion** - CSV is kept as-is
+- Open with: `cat`, `csvlook`, Excel, or any CSV viewer
 
 ## ⚙️ Configuration
 
