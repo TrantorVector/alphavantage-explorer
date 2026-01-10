@@ -3,21 +3,41 @@
     "annualEarnings": [
         {
             "fiscalDateEnding": "2023-08-31",
-            "reportedEPS": "-1.01"
+            "reportedEPS": "-4.45"
         },
         {
             "fiscalDateEnding": "2022-09-01",
             "reportedEPS": "8.14"
+        },
+        {
+            "fiscalDateEnding": "2021-09-02",
+            "reportedEPS": "6.00"
         }
     ],
     "quarterlyEarnings": [
         {
             "fiscalDateEnding": "2023-11-30",
             "reportedDate": "2023-12-20",
-            "reportedEPS": "-1.07",
-            "estimatedEPS": "-1.13",
+            "reportedEPS": "-0.95",
+            "estimatedEPS": "-1.01",
             "surprise": "0.06",
-            "surprisePercentage": "5.3097"
+            "surprisePercentage": "5.94"
+        },
+        {
+            "fiscalDateEnding": "2023-08-31",
+            "reportedDate": "2023-09-27",
+            "reportedEPS": "-1.07",
+            "estimatedEPS": "-1.15",
+            "surprise": "0.08",
+            "surprisePercentage": "6.96"
+        },
+        {
+            "fiscalDateEnding": "2023-06-01",
+            "reportedDate": "2023-06-28",
+            "reportedEPS": "-1.43",
+            "estimatedEPS": "-1.57",
+            "surprise": "0.14",
+            "surprisePercentage": "8.92"
         }
     ]
 }

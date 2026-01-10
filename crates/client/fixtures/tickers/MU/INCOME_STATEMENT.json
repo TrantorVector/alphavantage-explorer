@@ -4,31 +4,40 @@
         {
             "fiscalDateEnding": "2023-08-31",
             "reportedCurrency": "USD",
-            "grossProfit": "3753000000",
             "totalRevenue": "15537000000",
-            "costOfRevenue": "11784000000",
-            "costofGoodsAndServicesSold": "11784000000",
-            "operatingIncome": "-2324000000",
-            "sellingGeneralAndAdministrative": "1574000000",
-            "researchAndDevelopment": "4503000000",
-            "operatingExpenses": "6077000000",
-            "investmentIncomeNet": "389000000",
-            "netInterestIncome": "389000000",
-            "interestIncome": "427000000",
-            "interestExpense": "377000000",
-            "nonInterestIncome": "15158000000",
-            "otherNonOperatingIncome": "-50000000",
-            "depreciation": "4126000000",
-            "depreciationAndAmortization": "4126000000",
-            "incomeBeforeTax": "-5478000000",
-            "incomeTaxExpense": "-4371000000",
-            "interestAndDebtExpense": "377000000",
-            "netIncomeFromContinuingOperations": "-1107000000",
-            "comprehensiveIncomeNetOfTax": "-1107000000",
-            "ebit": "-5101000000",
-            "ebitda": "-975000000",
-            "netIncome": "-1107000000"
+            "netIncome": "-5833000000"
+        },
+        {
+            "fiscalDateEnding": "2022-09-01",
+            "reportedCurrency": "USD",
+            "totalRevenue": "30758000000",
+            "netIncome": "8687000000"
+        },
+        {
+            "fiscalDateEnding": "2021-09-02",
+            "reportedCurrency": "USD",
+            "totalRevenue": "27705000000",
+            "netIncome": "5861000000"
         }
     ],
-    "quarterlyReports": []
+    "quarterlyReports": [
+        {
+            "fiscalDateEnding": "2023-11-30",
+            "reportedCurrency": "USD",
+            "totalRevenue": "4726000000",
+            "netIncome": "-1234000000"
+        },
+        {
+            "fiscalDateEnding": "2023-08-31",
+            "reportedCurrency": "USD",
+            "totalRevenue": "4010000000",
+            "netIncome": "-1430000000"
+        },
+        {
+            "fiscalDateEnding": "2023-06-01",
+            "reportedCurrency": "USD",
+            "totalRevenue": "3752000000",
+            "netIncome": "-1896000000"
+        }
+    ]
 }

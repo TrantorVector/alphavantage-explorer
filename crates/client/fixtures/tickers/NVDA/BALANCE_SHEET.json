@@ -5,42 +5,45 @@
             "fiscalDateEnding": "2024-01-28",
             "reportedCurrency": "USD",
             "totalAssets": "65728000000",
-            "totalCurrentAssets": "42276000000",
-            "cashAndCashEquivalentsAtCarryingValue": "7280000000",
-            "cashAndShortTermInvestments": "25984000000",
-            "inventory": "5282000000",
-            "currentNetReceivables": "9999000000",
-            "totalNonCurrentAssets": "23452000000",
-            "propertyPlantEquipment": "3914000000",
-            "accumulatedDepreciationAmortizationPPE": null,
-            "intangibleAssets": "1112000000",
-            "intangibleAssetsExcludingGoodwill": "728000000",
-            "goodwill": "4430000000",
-            "investments": "18704000000",
-            "longTermInvestments": "18704000000",
-            "shortTermInvestments": "18704000000",
-            "otherCurrentAssets": "4734000000",
-            "otherNonCurrentAssets": "5296000000",
             "totalLiabilities": "25192000000",
-            "totalCurrentLiabilities": "15508000000",
-            "currentAccountsPayable": "2699000000",
-            "deferredRevenue": "1486000000",
-            "currentDebt": "1250000000",
-            "shortTermDebt": "1250000000",
-            "totalNonCurrentLiabilities": "9684000000",
-            "capitalLeaseObligations": null,
-            "longTermDebt": "8460000000",
-            "currentLongTermDebt": "1250000000",
-            "longTermDebtNoncurrent": "8460000000",
-            "shortLongTermDebtTotal": "9710000000",
-            "otherCurrentLiabilities": "10073000000",
-            "otherNonCurrentLiabilities": "1224000000",
-            "totalShareholderEquity": "40536000000",
-            "treasuryStock": null,
-            "retainedEarnings": "34336000000",
-            "commonStock": "7000000",
-            "commonStockSharesOutstanding": "2450000000"
+            "totalShareholderEquity": "40536000000"
+        },
+        {
+            "fiscalDateEnding": "2023-01-29",
+            "reportedCurrency": "USD",
+            "totalAssets": "41182000000",
+            "totalLiabilities": "19081000000",
+            "totalShareholderEquity": "22101000000"
+        },
+        {
+            "fiscalDateEnding": "2022-01-30",
+            "reportedCurrency": "USD",
+            "totalAssets": "44187000000",
+            "totalLiabilities": "17575000000",
+            "totalShareholderEquity": "26612000000"
         }
     ],
-    "quarterlyReports": []
+    "quarterlyReports": [
+        {
+            "fiscalDateEnding": "2024-01-28",
+            "reportedCurrency": "USD",
+            "totalAssets": "65728000000",
+            "totalLiabilities": "25192000000",
+            "totalShareholderEquity": "40536000000"
+        },
+        {
+            "fiscalDateEnding": "2023-10-29",
+            "reportedCurrency": "USD",
+            "totalAssets": "55154000000",
+            "totalLiabilities": "21841000000",
+            "totalShareholderEquity": "33313000000"
+        },
+        {
+            "fiscalDateEnding": "2023-07-30",
+            "reportedCurrency": "USD",
+            "totalAssets": "49557000000",
+            "totalLiabilities": "22079000000",
+            "totalShareholderEquity": "27478000000"
+        }
+    ]
 }

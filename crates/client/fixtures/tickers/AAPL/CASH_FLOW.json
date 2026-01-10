@@ -5,33 +5,45 @@
             "fiscalDateEnding": "2023-09-30",
             "reportedCurrency": "USD",
             "operatingCashflow": "110543000000",
-            "paymentsForOperatingActivities": "-22298000000",
-            "proceedsFromOperatingActivities": null,
-            "changeInOperatingLiabilities": "25360000000",
-            "changeInOperatingAssets": "-8916000000",
-            "depreciationDepletionAndAmortization": "11519000000",
             "capitalExpenditures": "-10959000000",
-            "changeInReceivables": "-1688000000",
-            "changeInInventory": "-1618000000",
-            "profitLoss": "96995000000",
-            "cashflowFromInvestment": "-7077000000",
-            "cashflowFromFinancing": "-108488000000",
-            "proceedsFromRepaymentsOfShortTermDebt": null,
-            "paymentsForRepurchaseOfCommonStock": "-77550000000",
-            "paymentsForRepurchaseOfEquity": "-77550000000",
-            "paymentsForRepurchaseOfPreferredStock": null,
-            "dividendPayout": "-15025000000",
-            "dividendPayoutCommonStock": "-15025000000",
-            "dividendPayoutPreferredStock": null,
-            "proceedsFromIssuanceOfCommonStock": null,
-            "proceedsFromIssuanceOfLongTermDebtAndCapitalSecuritiesNet": "5228000000",
-            "proceedsFromIssuanceOfPreferredStock": null,
-            "proceedsFromRepurchaseOfEquity": "-77550000000",
-            "proceedsFromSaleOfTreasuryStock": null,
-            "changeInCashAndCashEquivalents": "-3082000000",
-            "changeInExchangeRate": null,
             "netIncome": "96995000000"
+        },
+        {
+            "fiscalDateEnding": "2022-09-24",
+            "reportedCurrency": "USD",
+            "operatingCashflow": "122151000000",
+            "capitalExpenditures": "-10708000000",
+            "netIncome": "99803000000"
+        },
+        {
+            "fiscalDateEnding": "2021-09-25",
+            "reportedCurrency": "USD",
+            "operatingCashflow": "104038000000",
+            "capitalExpenditures": "-11085000000",
+            "netIncome": "94680000000"
         }
     ],
-    "quarterlyReports": []
+    "quarterlyReports": [
+        {
+            "fiscalDateEnding": "2023-12-30",
+            "reportedCurrency": "USD",
+            "operatingCashflow": "40936000000",
+            "capitalExpenditures": "-2675000000",
+            "netIncome": "33916000000"
+        },
+        {
+            "fiscalDateEnding": "2023-09-30",
+            "reportedCurrency": "USD",
+            "operatingCashflow": "22922000000",
+            "capitalExpenditures": "-2750000000",
+            "netIncome": "22956000000"
+        },
+        {
+            "fiscalDateEnding": "2023-07-01",
+            "reportedCurrency": "USD",
+            "operatingCashflow": "26024000000",
+            "capitalExpenditures": "-2700000000",
+            "netIncome": "19881000000"
+        }
+    ]
 }
