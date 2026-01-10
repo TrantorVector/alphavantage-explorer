@@ -160,7 +160,7 @@ impl RateLimiter {
                 // min_delay_ms is u64, we assume it fits in i64 for comparison with chrono duration
                 let min_delay = self.min_delay_ms as i64;
                 if elapsed < min_delay {
-                     // We know this is positive because elapsed < min_delay
+                    // We know this is positive because elapsed < min_delay
                     Some(Duration::from_millis((min_delay - elapsed) as u64))
                 } else {
                     None
