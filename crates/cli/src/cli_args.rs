@@ -47,7 +47,7 @@ pub enum Commands {
         #[arg(short, long, value_parser = parse_ticker)]
         symbol: TickerSymbol,
 
-        /// Output file path (optional, defaults to out_dir)
+        /// Output file path (optional, defaults to `out_dir`)
         #[arg(short, long)]
         output: Option<PathBuf>,
     },
