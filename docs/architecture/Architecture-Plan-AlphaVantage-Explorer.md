@@ -925,7 +925,7 @@ use tokio::sync::Mutex;
 
 /// Token bucket rate limiter.
 ///
-/// Enforces free-tier constraints (e.g., 5 calls/minute).
+/// Enforces free-tier constraints (25 calls/day).
 pub struct RateLimiter {
     max_tokens: u32,
     refill_interval: Duration,
