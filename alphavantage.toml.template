@@ -1,0 +1,13 @@
+# Alpha Vantage API Configuration Template
+# Copy this file to 'alphavantage.toml' and fill in your actual values
+
+[api]
+# Your Alpha Vantage API key
+# Get one at: https://www.alphavantage.co/support/#api-key
+api_key = "YOUR_API_KEY_HERE"
+
+[rate_limit]
+# Maximum number of API calls allowed per day
+# Free tier: 25 calls/day
+# Premium tiers vary - check your plan at https://www.alphavantage.co/premium/
+daily_limit = 25
