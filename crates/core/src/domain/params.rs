@@ -88,14 +88,8 @@ mod tests {
 
     #[test]
     fn test_quarter_parsing() {
-        assert!(matches!(
-            QuarterParam::from_str("Q1"),
-            Ok(QuarterParam::Q1)
-        ));
-        assert!(matches!(
-            QuarterParam::from_str("q2"),
-            Ok(QuarterParam::Q2)
-        ));
+        assert!(matches!(QuarterParam::from_str("Q1"), Ok(QuarterParam::Q1)));
+        assert!(matches!(QuarterParam::from_str("q2"), Ok(QuarterParam::Q2)));
         assert!(QuarterParam::from_str("Q5").is_err());
         assert!(QuarterParam::from_str("invalid").is_err());
     }
