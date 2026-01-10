@@ -163,6 +163,8 @@ fn flatten_nested(value: &Value) -> String {
 }
 
 #[cfg(test)]
+#[allow(clippy::unwrap_used)]
+#[allow(clippy::indexing_slicing)]
 mod tests {
     use super::*;
     use proptest::prelude::*;
