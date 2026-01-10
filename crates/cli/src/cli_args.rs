@@ -4,7 +4,7 @@ use std::path::PathBuf;
 use tracing::Level;
 
 /// Alpha Vantage Explorer - API validation and reporting tool
-#[derive(Parser, Debug)]
+#[derive(Parser, Debug, Clone)]
 #[command(author, version, about, long_about = None)]
 pub struct CliArgs {
     #[command(subcommand)]

@@ -2,6 +2,7 @@ mod api_config;
 mod cli_args;
 mod config;
 mod executor;
+mod granular_executor;
 mod index_generator;
 mod progress;
 
@@ -32,7 +33,7 @@ async fn main() {
     }
 
     // Load Config
-    let config = match Config::from_args(args) {
+    let config = match Config::from_args(args.clone()) {
         Ok(c) => c,
         Err(e) => {
             tracing::error!("Configuration error: {}", e);
@@ -43,11 +44,28 @@ async fn main() {
     tracing::info!("Starting Alpha Vantage Explorer");
     tracing::debug!("Loaded configuration: {:?}", config);
 
-    let executor = Executor::new(config);
+    // Check if granular command or bulk mode
+    if let Some(command) = args.command {
+        // Granular mode: single endpoint
+        let client = alphavantage_client::create_client(
+            config.client_mode,
+            config.daily_limit,
+            config.min_delay_ms,
+        );
+        let granular_exec = granular_executor::GranularExecutor::new(&config, client.as_ref());
 
-    if let Err(e) = executor.run().await {
-        tracing::error!("Execution failed: {}", e);
-        process::exit(1);
+        if let Err(e) = granular_exec.execute(&command).await {
+            tracing::error!("Granular execution failed: {}", e);
+            process::exit(1);
+        }
+    } else {
+        // Bulk mode: all endpoints for provided symbols
+        let executor = Executor::new(config);
+
+        if let Err(e) = executor.run().await {
+            tracing::error!("Execution failed: {}", e);
+            process::exit(1);
+        }
     }
 
     tracing::info!("Done.");
