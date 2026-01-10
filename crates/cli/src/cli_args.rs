@@ -41,7 +41,7 @@ pub struct CliArgs {
 
 #[derive(Subcommand, Debug, Clone)]
 pub enum Commands {
-    /// Fetch company overview (OVERVIEW endpoint)
+    /// Fetch company overview (`OVERVIEW` endpoint)
     Overview {
         /// Stock ticker symbol
         #[arg(short, long, value_parser = parse_ticker)]
@@ -52,7 +52,7 @@ pub enum Commands {
         output: Option<PathBuf>,
     },
 
-    /// Fetch income statement (INCOME_STATEMENT endpoint)
+    /// Fetch income statement (`INCOME_STATEMENT` endpoint)
     IncomeStatement {
         /// Stock ticker symbol
         #[arg(short, long, value_parser = parse_ticker)]
@@ -63,7 +63,7 @@ pub enum Commands {
         output: Option<PathBuf>,
     },
 
-    /// Fetch balance sheet (BALANCE_SHEET endpoint)
+    /// Fetch balance sheet (`BALANCE_SHEET` endpoint)
     BalanceSheet {
         /// Stock ticker symbol
         #[arg(short, long, value_parser = parse_ticker)]
@@ -74,7 +74,7 @@ pub enum Commands {
         output: Option<PathBuf>,
     },
 
-    /// Fetch cash flow statement (CASH_FLOW endpoint)
+    /// Fetch cash flow statement (`CASH_FLOW` endpoint)
     CashFlow {
         /// Stock ticker symbol
         #[arg(short, long, value_parser = parse_ticker)]
@@ -85,7 +85,7 @@ pub enum Commands {
         output: Option<PathBuf>,
     },
 
-    /// Fetch earnings data (EARNINGS endpoint)
+    /// Fetch earnings data (`EARNINGS` endpoint)
     Earnings {
         /// Stock ticker symbol
         #[arg(short, long, value_parser = parse_ticker)]
@@ -96,7 +96,7 @@ pub enum Commands {
         output: Option<PathBuf>,
     },
 
-    /// Fetch earnings estimates (EARNINGS_ESTIMATES endpoint)
+    /// Fetch earnings estimates (`EARNINGS_ESTIMATES` endpoint)
     EarningsEstimates {
         /// Stock ticker symbol
         #[arg(short, long, value_parser = parse_ticker)]
@@ -107,7 +107,7 @@ pub enum Commands {
         output: Option<PathBuf>,
     },
 
-    /// Fetch news sentiment (NEWS_SENTIMENT endpoint)
+    /// Fetch news sentiment (`NEWS_SENTIMENT` endpoint)
     NewsSentiment {
         /// Stock ticker symbol
         #[arg(short, long, value_parser = parse_ticker)]
@@ -122,7 +122,7 @@ pub enum Commands {
         output: Option<PathBuf>,
     },
 
-    /// Fetch insider transactions (INSIDER_TRANSACTIONS endpoint)
+    /// Fetch insider transactions (`INSIDER_TRANSACTIONS` endpoint)
     InsiderTransactions {
         /// Stock ticker symbol
         #[arg(short, long, value_parser = parse_ticker)]
@@ -133,7 +133,7 @@ pub enum Commands {
         output: Option<PathBuf>,
     },
 
-    /// Fetch dividend history (DIVIDENDS endpoint)
+    /// Fetch dividend history (`DIVIDENDS` endpoint)
     Dividends {
         /// Stock ticker symbol
         #[arg(short, long, value_parser = parse_ticker)]
@@ -144,7 +144,7 @@ pub enum Commands {
         output: Option<PathBuf>,
     },
 
-    /// Fetch stock splits (SPLITS endpoint)
+    /// Fetch stock splits (`SPLITS` endpoint)
     Splits {
         /// Stock ticker symbol
         #[arg(short, long, value_parser = parse_ticker)]
@@ -155,7 +155,7 @@ pub enum Commands {
         output: Option<PathBuf>,
     },
 
-    /// Fetch shares outstanding (SHARES_OUTSTANDING endpoint)
+    /// Fetch shares outstanding (`SHARES_OUTSTANDING` endpoint)
     SharesOutstanding {
         /// Stock ticker symbol
         #[arg(short, long, value_parser = parse_ticker)]
@@ -166,7 +166,7 @@ pub enum Commands {
         output: Option<PathBuf>,
     },
 
-    /// Fetch earnings calendar (EARNINGS_CALENDAR endpoint)
+    /// Fetch earnings calendar (`EARNINGS_CALENDAR` endpoint)
     EarningsCalendar {
         /// Stock ticker symbol
         #[arg(short, long, value_parser = parse_ticker)]
@@ -181,7 +181,7 @@ pub enum Commands {
         output: Option<PathBuf>,
     },
 
-    /// Fetch earnings call transcript (EARNINGS_CALL_TRANSCRIPT endpoint)
+    /// Fetch earnings call transcript (`EARNINGS_CALL_TRANSCRIPT` endpoint)
     EarningsCallTranscript {
         /// Stock ticker symbol
         #[arg(short, long, value_parser = parse_ticker)]
