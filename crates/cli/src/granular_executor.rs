@@ -193,11 +193,7 @@ impl<'a> GranularExecutor<'a> {
     }
 
     /// Handle CSV output: save raw CSV only
-    fn handle_csv_output(
-        response: &str,
-        base_filename: &str,
-        out_dir: &Path,
-    ) -> Result<()> {
+    fn handle_csv_output(response: &str, base_filename: &str, out_dir: &Path) -> Result<()> {
         let csv_path = out_dir.join("raw").join(format!("{base_filename}.csv"));
         CsvHandler::save_raw(response, &csv_path)?;
         println!(
