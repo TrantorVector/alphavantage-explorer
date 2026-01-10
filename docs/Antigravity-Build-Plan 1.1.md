@@ -971,19 +971,22 @@ Report:
 - 🎉 Ready for v0.1.0 release
 ```
 
-### 8.2 Human Verification Checklist
+### 8.2 Perform the Verification Checklist
 
 - [ ] Read README.md → ensure it's clear for new users
 - [ ] Run examples → verify they work
 - [ ] Review generated docs: `cargo doc --workspace --no-deps --open`
-- [ ] Run final smoke test with live API (1 endpoint only)
+- [ ] cargo clippy --workspace -- -D warnings (no warnings)
+- [ ] cargo test --workspace (all pass)
+- [ ] cargo build --release (builds)
+- [ ] cargo doc --workspace --no-deps (generates docs)
+- [ ] Run full tool in mock mode → verify output
 - [ ] Review GitHub repo → ensure it looks professional
 
 ### 8.3 Git Workflow & Release
 
 ```bash
 git checkout main
-git pull
 git checkout -b phase-8-documentation
 
 # After Antigravity completes
