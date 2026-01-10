@@ -32,17 +32,13 @@
         {
             "fiscalDateEnding": "2022-09-24",
             "reportedCurrency": "USD",
-            "grossProfit": "170782000000",
             "totalRevenue": "394328000000",
-            "costOfRevenue": "223546000000",
             "netIncome": "99803000000"
         },
         {
             "fiscalDateEnding": "2021-09-25",
             "reportedCurrency": "USD",
-            "grossProfit": "152836000000",
             "totalRevenue": "365817000000",
-            "costOfRevenue": "212981000000",
             "netIncome": "94680000000"
         }
     ],
@@ -53,25 +49,38 @@
             "grossProfit": "54855000000",
             "totalRevenue": "119575000000",
             "costOfRevenue": "64720000000",
+            "costofGoodsAndServicesSold": "64720000000",
             "operatingIncome": "40373000000",
+            "sellingGeneralAndAdministrative": "6811000000",
+            "researchAndDevelopment": "7671000000",
+            "operatingExpenses": "14482000000",
+            "investmentIncomeNet": "396000000",
+            "netInterestIncome": "396000000",
+            "interestIncome": "1002000000",
+            "interestExpense": "606000000",
+            "nonInterestIncome": "-51000000",
+            "otherNonOperatingIncome": "-51000000",
+            "depreciation": "2789000000",
+            "depreciationAndAmortization": "2789000000",
+            "incomeBeforeTax": "40332000000",
+            "incomeTaxExpense": "6409000000",
+            "interestAndDebtExpense": "606000000",
+            "netIncomeFromContinuingOperations": "33916000000",
+            "comprehensiveIncomeNetOfTax": "33916000000",
+            "ebit": "40938000000",
+            "ebitda": "43727000000",
             "netIncome": "33916000000"
         },
         {
             "fiscalDateEnding": "2023-09-30",
             "reportedCurrency": "USD",
-            "grossProfit": "41853000000",
             "totalRevenue": "89498000000",
-            "costOfRevenue": "47645000000",
-            "operatingIncome": "26981000000",
             "netIncome": "22956000000"
         },
         {
             "fiscalDateEnding": "2023-07-01",
             "reportedCurrency": "USD",
-            "grossProfit": "41447000000",
             "totalRevenue": "81797000000",
-            "costOfRevenue": "40350000000",
-            "operatingIncome": "26280000000",
             "netIncome": "19881000000"
         }
     ]
