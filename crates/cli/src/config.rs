@@ -76,7 +76,7 @@ impl Config {
             const DEFAULT_SYMBOLS: &[&str] = &["AAPL", "NVDA", "MU"];
             DEFAULT_SYMBOLS
                 .iter()
-                .filter_map(|s| TickerSymbol::new(s).ok())
+                .filter_map(|s| TickerSymbol::new(*s).ok())
                 .collect()
         });
 

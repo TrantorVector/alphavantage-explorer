@@ -19,9 +19,7 @@ impl FromStr for QuarterParam {
             "Q2" => Ok(Self::Q2),
             "Q3" => Ok(Self::Q3),
             "Q4" => Ok(Self::Q4),
-            _ => Err(format!(
-                "Invalid quarter '{s}'. Must be Q1, Q2, Q3, or Q4"
-            )),
+            _ => Err(format!("Invalid quarter '{s}'. Must be Q1, Q2, Q3, or Q4")),
         }
     }
 }
