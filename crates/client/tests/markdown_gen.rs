@@ -58,7 +58,7 @@ fn generate_overview_markdown() {
         "ExDividendDate": "2024-02-09"
     });
 
-    let tables = parse_json_to_tables(EndpointName::Overview, &json).unwrap();
+    let tables = parse_json_to_tables(EndpointName::Overview, &json, Some(3)).unwrap();
     let mut writer = MarkdownWriterImpl::new();
 
     for table in tables {
@@ -126,7 +126,7 @@ fn generate_income_statement_markdown() {
         "quarterlyReports": []
     });
 
-    let tables = parse_json_to_tables(EndpointName::IncomeStatement, &json).unwrap();
+    let tables = parse_json_to_tables(EndpointName::IncomeStatement, &json, Some(3)).unwrap();
     let mut writer = MarkdownWriterImpl::new();
 
     for table in tables {
