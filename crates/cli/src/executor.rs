@@ -25,7 +25,11 @@ impl Executor {
     }
 
     pub async fn run(&self) -> Result<()> {
-        let client = create_client(self.config.client_mode, self.config.daily_limit);
+        let client = create_client(
+            self.config.client_mode,
+            self.config.daily_limit,
+            self.config.min_delay_ms,
+        );
         let persister = FileSystemJsonPersister::new();
         let analyzer = SchemaAnalyzerImpl::new();
 

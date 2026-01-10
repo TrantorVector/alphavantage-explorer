@@ -14,6 +14,7 @@ pub struct Config {
     pub client_mode: ClientMode,
     pub save_raw: bool,
     pub daily_limit: u32,
+    pub min_delay_ms: u64,
     #[allow(dead_code)]
     pub log_format: LogFormat,
     #[allow(dead_code)]
@@ -28,18 +29,20 @@ impl Config {
             ClientMode::Mock
         };
 
-        // Determine API key and rate limit
-        let (api_key_str, daily_limit) = match client_mode {
+        // Determine API key, rate limit, and min delay
+        let (api_key_str, daily_limit, min_delay_ms) = match client_mode {
             ClientMode::Live => {
                 // Try to load from config file first, then fall back to CLI args
                 if let Ok(config_file) = ApiConfig::load() {
                     tracing::info!(
-                        "Loaded API configuration from alphavantage.toml (daily limit: {})",
-                        config_file.rate_limit.daily_limit
+                        "Loaded API configuration from alphavantage.toml (daily limit: {}, min delay: {}ms)",
+                        config_file.rate_limit.daily_limit,
+                        config_file.rate_limit.min_delay_ms
                     );
                     let key = args.api_key.unwrap_or(config_file.api.api_key);
                     let limit = config_file.rate_limit.daily_limit;
-                    (key, limit)
+                    let delay = config_file.rate_limit.min_delay_ms;
+                    (key, limit, delay)
                 } else {
                     // Fall back to CLI args/env vars
                     tracing::warn!(
@@ -51,12 +54,16 @@ impl Config {
                          Set ALPHA_VANTAGE_API_KEY env var, use --api-key flag, \
                          or create alphavantage.toml from alphavantage.toml.template",
                     )?;
-                    (key, 25) // Default to free tier limit
+                    (key, 25, 1000) // Default to free tier limit and delay
                 }
             }
             ClientMode::Mock => {
                 // For mock mode, use dummy values
-                (args.api_key.unwrap_or_else(|| "mock_key".to_string()), 25)
+                (
+                    args.api_key.unwrap_or_else(|| "mock_key".to_string()),
+                    25,
+                    0, // No delay in mock mode
+                )
             }
         };
 
@@ -69,6 +76,7 @@ impl Config {
             client_mode,
             save_raw: !args.no_raw,
             daily_limit,
+            min_delay_ms,
             log_format: args.log_format,
             log_level: args.log_level.into(),
         })
