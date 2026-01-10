@@ -8,6 +8,8 @@ use std::path::Path;
 /// before flushing to disk.
 pub struct MarkdownWriterImpl {
     buffer: String,
+    #[allow(dead_code)] // Will be used in Phase 11 granular mode
+    truncate_rows: bool,
 }
 
 impl MarkdownWriterImpl {
@@ -15,6 +17,16 @@ impl MarkdownWriterImpl {
     pub const fn new() -> Self {
         Self {
             buffer: String::new(),
+            truncate_rows: true, // Default to truncation for backward compatibility
+        }
+    }
+
+    /// Create a writer with specific truncation behavior
+    #[must_use]
+    pub const fn with_truncation(truncate: bool) -> Self {
+        Self {
+            buffer: String::new(),
+            truncate_rows: truncate,
         }
     }
 

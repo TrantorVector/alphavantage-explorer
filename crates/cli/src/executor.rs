@@ -268,7 +268,7 @@ impl Executor {
         ticker: Option<&TickerSymbol>,
         json: &serde_json::Value,
     ) -> Result<Vec<SchemaTable>> {
-        let tables = parse_json_to_tables(endpoint, json)?;
+        let tables = parse_json_to_tables(endpoint, json, Some(3))?; // Bulk mode truncates to 3 rows
 
         let mut writer = MarkdownWriterImpl::new();
         for table in &tables {

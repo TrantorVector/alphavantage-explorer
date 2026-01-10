@@ -7,12 +7,18 @@ use serde_json::Value;
 /// This function applies endpoint-specific strategies to normalize data into
 /// tabular formats suitable for display and schema comparison.
 ///
+/// # Arguments
+/// * `endpoint` - The API endpoint name
+/// * `json` - The JSON response to parse
+/// * `max_rows` - Maximum rows to include per table (None for all rows)
+///
 /// # Errors
 ///
 /// Returns `ExplorerError` if parsing fails (currently infallible, but reserved for future validation).
 pub fn parse_json_to_tables(
     endpoint: EndpointName,
     json: &Value,
+    max_rows: Option<usize>,
 ) -> Result<Vec<SchemaTable>, ExplorerError> {
     Ok(match endpoint {
         EndpointName::Overview | EndpointName::GlobalQuote => {
@@ -21,11 +27,11 @@ pub fn parse_json_to_tables(
         EndpointName::IncomeStatement
         | EndpointName::BalanceSheet
         | EndpointName::CashFlow
-        | EndpointName::Earnings => parse_financials(endpoint, json),
-        EndpointName::NewsSentiment => parse_news(endpoint, json),
-        EndpointName::TopGainersLosers => parse_top_movers(endpoint, json),
+        | EndpointName::Earnings => parse_financials(endpoint, json, max_rows),
+        EndpointName::NewsSentiment => parse_news(endpoint, json, max_rows),
+        EndpointName::TopGainersLosers => parse_top_movers(endpoint, json, max_rows),
         // Fallback for others or unimplemented
-        _ => parse_generic(&endpoint.to_string(), json),
+        _ => parse_generic(&endpoint.to_string(), json, max_rows),
     })
 }
 
@@ -45,7 +51,11 @@ fn parse_flat_map(title: &str, json: &Value) -> Vec<SchemaTable> {
     }
 }
 
-fn parse_financials(endpoint: EndpointName, json: &Value) -> Vec<SchemaTable> {
+fn parse_financials(
+    endpoint: EndpointName,
+    json: &Value,
+    max_rows: Option<usize>,
+) -> Vec<SchemaTable> {
     let mut tables = Vec::new();
     let keys = [
         "annualReports",
@@ -58,7 +68,7 @@ fn parse_financials(endpoint: EndpointName, json: &Value) -> Vec<SchemaTable> {
         for key in keys {
             if let Some(Value::Array(arr)) = map.get(key) {
                 let title = format!("{endpoint} - {key}");
-                if let Some(table) = parse_array_to_table(title, arr) {
+                if let Some(table) = parse_array_to_table(title, arr, max_rows) {
                     tables.push(table);
                 }
             }
@@ -68,11 +78,11 @@ fn parse_financials(endpoint: EndpointName, json: &Value) -> Vec<SchemaTable> {
     tables
 }
 
-fn parse_news(endpoint: EndpointName, json: &Value) -> Vec<SchemaTable> {
+fn parse_news(endpoint: EndpointName, json: &Value, max_rows: Option<usize>) -> Vec<SchemaTable> {
     if let Value::Object(map) = json {
         if let Some(Value::Array(arr)) = map.get("feed") {
             let title = format!("{endpoint} - Feed");
-            if let Some(table) = parse_array_to_table(title, arr) {
+            if let Some(table) = parse_array_to_table(title, arr, max_rows) {
                 return vec![table];
             }
         }
@@ -80,7 +90,11 @@ fn parse_news(endpoint: EndpointName, json: &Value) -> Vec<SchemaTable> {
     vec![]
 }
 
-fn parse_top_movers(endpoint: EndpointName, json: &Value) -> Vec<SchemaTable> {
+fn parse_top_movers(
+    endpoint: EndpointName,
+    json: &Value,
+    max_rows: Option<usize>,
+) -> Vec<SchemaTable> {
     let mut tables = Vec::new();
     let keys = ["top_gainers", "top_losers", "most_actively_traded"];
 
@@ -88,7 +102,7 @@ fn parse_top_movers(endpoint: EndpointName, json: &Value) -> Vec<SchemaTable> {
         for key in keys {
             if let Some(Value::Array(arr)) = map.get(key) {
                 let title = format!("{endpoint} - {key}");
-                if let Some(table) = parse_array_to_table(title, arr) {
+                if let Some(table) = parse_array_to_table(title, arr, max_rows) {
                     tables.push(table);
                 }
             }
@@ -97,17 +111,20 @@ fn parse_top_movers(endpoint: EndpointName, json: &Value) -> Vec<SchemaTable> {
     tables
 }
 
-fn parse_generic(title: &str, json: &Value) -> Vec<SchemaTable> {
+fn parse_generic(title: &str, json: &Value, max_rows: Option<usize>) -> Vec<SchemaTable> {
     match json {
         Value::Object(_) => parse_flat_map(title, json),
-        Value::Array(arr) => {
-            parse_array_to_table(title.to_string(), arr).map_or_else(Vec::new, |table| vec![table])
-        }
+        Value::Array(arr) => parse_array_to_table(title.to_string(), arr, max_rows)
+            .map_or_else(Vec::new, |table| vec![table]),
         _ => vec![],
     }
 }
 
-fn parse_array_to_table(title: String, arr: &[Value]) -> Option<SchemaTable> {
+fn parse_array_to_table(
+    title: String,
+    arr: &[Value],
+    max_rows: Option<usize>,
+) -> Option<SchemaTable> {
     // Extract headers from the first object
     // We assume mostly consistent schema in array
     let first = arr.first()?;
@@ -120,7 +137,7 @@ fn parse_array_to_table(title: String, arr: &[Value]) -> Option<SchemaTable> {
     };
 
     let total_records = arr.len();
-    let take_count = 3;
+    let take_count = max_rows.unwrap_or(total_records); // If None, take all rows
 
     let rows: Vec<Vec<String>> = arr
         .iter()
@@ -176,7 +193,7 @@ mod tests {
             "Symbol": "AAPL",
             "AssetType": "Common Stock"
         });
-        let tables = parse_json_to_tables(EndpointName::Overview, &json).unwrap();
+        let tables = parse_json_to_tables(EndpointName::Overview, &json, Some(3)).unwrap();
         assert_eq!(tables.len(), 1);
         let table = &tables[0];
         assert_eq!(table.headers, vec!["Field", "Value"]);
@@ -196,7 +213,7 @@ mod tests {
             ],
             "quarterlyReports": []
         });
-        let tables = parse_json_to_tables(EndpointName::IncomeStatement, &json).unwrap();
+        let tables = parse_json_to_tables(EndpointName::IncomeStatement, &json, Some(3)).unwrap();
         assert_eq!(tables.len(), 1);
         let table = &tables[0];
         assert!(table.title.contains("INCOME_STATEMENT"));
@@ -212,7 +229,8 @@ mod tests {
             {"col1": "A", "col2": "B"},
             {"col1": "C"} // Missing col2
         ]);
-        let table = parse_array_to_table("test".to_string(), json_arr.as_array().unwrap()).unwrap();
+        let table = parse_array_to_table("test".to_string(), json_arr.as_array().unwrap(), Some(3))
+            .unwrap();
         assert_eq!(table.headers, vec!["col1", "col2"]);
         assert_eq!(table.rows[1], vec!["C", "N/A"]);
     }
@@ -224,7 +242,7 @@ mod tests {
             "top_losers": [{"ticker": "B", "amount": "-10"}],
             "most_actively_traded": [{"ticker": "C", "volume": "1000"}]
         });
-        let tables = parse_json_to_tables(EndpointName::TopGainersLosers, &json).unwrap();
+        let tables = parse_json_to_tables(EndpointName::TopGainersLosers, &json, Some(3)).unwrap();
         assert_eq!(tables.len(), 3);
     }
 
@@ -232,7 +250,7 @@ mod tests {
         #[test]
         fn doesnt_crash_on_random_json(s in "\\PC*") {
             if let Ok(json) = serde_json::from_str::<Value>(&s) {
-                 let _ = parse_json_to_tables(EndpointName::Overview, &json);
+                 let _ = parse_json_to_tables(EndpointName::Overview, &json, Some(3));
             }
         }
     }
