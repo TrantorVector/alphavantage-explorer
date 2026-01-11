@@ -155,7 +155,7 @@ impl Executor {
 
         let result = if let Some(t) = ticker {
             client
-                .fetch_ticker_endpoint(endpoint, t, &self.config.api_key)
+                .fetch_ticker_endpoint(endpoint, t, None, &self.config.api_key)
                 .await
         } else {
             client
@@ -210,7 +210,7 @@ impl Executor {
         ProgressReporter::start_fetch(endpoint, ticker.as_str());
 
         let result = client
-            .fetch_ticker_endpoint(endpoint, ticker, &self.config.api_key)
+            .fetch_ticker_endpoint(endpoint, ticker, None, &self.config.api_key)
             .await;
 
         match result {

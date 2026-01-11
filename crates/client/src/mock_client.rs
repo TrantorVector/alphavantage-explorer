@@ -44,6 +44,7 @@ impl ApiClient for MockAlphaVantageClient {
         &self,
         endpoint: EndpointName,
         ticker: &TickerSymbol,
+        _params: Option<&std::collections::HashMap<String, String>>,
         _api_key: &ApiKey,
     ) -> Result<serde_json::Value> {
         // Simulate network latency

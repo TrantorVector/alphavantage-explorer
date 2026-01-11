@@ -1,7 +1,7 @@
 use crate::cli_args::Commands;
 use crate::config::Config;
 use alphavantage_client::{CsvHandler, FileSystemJsonPersister, MarkdownWriterImpl};
-use alphavantage_core::domain::{EndpointName, TickerSymbol};
+use alphavantage_core::domain::{EndpointName, QuarterParam, TickerSymbol};
 use alphavantage_core::error::Result;
 use alphavantage_core::logic::json_to_table::parse_json_to_tables;
 use alphavantage_core::ports::{ApiClient, JsonPersister, MarkdownWriter};
@@ -26,16 +26,13 @@ impl<'a> GranularExecutor<'a> {
     /// # Errors
     /// Returns error if API call fails, file I/O fails, or parsing fails
     pub async fn execute(&self, command: &Commands) -> Result<()> {
-        let (endpoint, symbol, _params, output_dir) = Self::route_command(command);
+        let (endpoint, symbol, params, output_dir) = Self::route_command(command);
 
         // Make API call (note: API client returns JSON Value, not raw string for now)
         let json_value = self
             .client
-            .fetch_ticker_endpoint(endpoint, &symbol, &self.config.api_key)
+            .fetch_ticker_endpoint(endpoint, &symbol, Some(&params), &self.config.api_key)
             .await?;
-
-        // Convert to string for consistency with bulk mode
-        let response = serde_json::to_string_pretty(&json_value)?;
 
         // Generate timestamped filename
         let timestamp = generate_timestamp();
@@ -44,6 +41,15 @@ impl<'a> GranularExecutor<'a> {
 
         // Determine output directory (use custom or default)
         let out_dir = output_dir.unwrap_or_else(|| self.config.out_dir.clone());
+
+        // Check for wrapped CSV content from standard client
+        if let Some(csv_content) = json_value.get("csv_content").and_then(|v| v.as_str()) {
+            Self::handle_csv_output(csv_content, &base_filename, &out_dir)?;
+            return Ok(());
+        }
+
+        // Convert to string for consistency with bulk mode
+        let response = serde_json::to_string_pretty(&json_value)?;
 
         // Handle response based on type (JSON vs CSV)
         #[allow(clippy::single_match_else)]
@@ -137,12 +143,15 @@ impl<'a> GranularExecutor<'a> {
                 quarter,
                 output,
             } => {
-                if let Some(y) = year {
-                    params.insert("year".to_string(), y.to_string());
-                }
-                if let Some(q) = quarter {
-                    params.insert("quarter".to_string(), q.to_string());
-                }
+                let q_num = match quarter {
+                    QuarterParam::Q1 => "1",
+                    QuarterParam::Q2 => "2",
+                    QuarterParam::Q3 => "3",
+                    QuarterParam::Q4 => "4",
+                };
+                // API expects quarter=YYYYQx (e.g., 2024Q1)
+                let combined_quarter = format!("{year}Q{q_num}");
+                params.insert("quarter".to_string(), combined_quarter);
                 (
                     EndpointName::EarningsCallTranscript,
                     symbol.clone(),

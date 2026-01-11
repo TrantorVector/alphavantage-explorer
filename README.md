@@ -105,7 +105,7 @@ alphavantage_cli news-sentiment --symbol MSFT --limit 100
 | `splits` | Stock split history | `--symbol` | `--output` | JSON |
 | `shares-outstanding` | Shares outstanding over time | `--symbol` | `--output` | JSON |
 | `earnings-calendar` | Upcoming earnings dates | `--symbol` | `--horizon`, `--output` | CSV |
-| `earnings-call-transcript` | Earnings call transcripts | `--symbol` | `--year`, `--quarter`, `--output` | JSON |
+| `earnings-call-transcript` | Earnings call transcripts | `--symbol`, `--year`, `--quarter` | `--output` | JSON |
 
 ### Command Line Options
 
