@@ -6,6 +6,14 @@ authors.workspace = true
 license.workspace = true
 repository.workspace = true
 
+[lib]
+name = "alphavantage_cli"
+path = "src/lib.rs"
+
+[[bin]]
+name = "alphavantage_cli"
+path = "src/main.rs"
+
 [dependencies]
 alphavantage_core.workspace = true
 alphavantage_client.workspace = true

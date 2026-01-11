@@ -10,6 +10,8 @@ pub mod schema_analyzer;
 pub use csv_handler::CsvHandler;
 pub use json_persister::FileSystemJsonPersister;
 pub use markdown_writer::MarkdownWriterImpl;
+pub use mock_client::MockAlphaVantageClient as MockClient;
+pub use rate_limiter::RateLimiter;
 pub use schema_analyzer::SchemaAnalyzerImpl;
 
 use alphavantage_core::ports::ApiClient;

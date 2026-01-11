@@ -28,12 +28,18 @@ const fn default_min_delay() -> u64 {
 
 impl ApiConfig {
     /// Load configuration from alphavantage.toml in the project root
+    ///
+    /// # Errors
+    /// Returns error if config file cannot be found, read, parsed, or contains invalid values
     pub fn load() -> Result<Self> {
         let config_path = Self::find_config_file()?;
         Self::load_from_path(&config_path)
     }
 
     /// Load configuration from a specific path
+    ///
+    /// # Errors
+    /// Returns error if file cannot be read, parsed as TOML, or contains invalid configuration
     pub fn load_from_path(path: &Path) -> Result<Self> {
         let contents = fs::read_to_string(path).with_context(|| {
             format!(

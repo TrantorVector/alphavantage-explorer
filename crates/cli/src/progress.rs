@@ -9,6 +9,8 @@ pub struct ProgressReporter {
 }
 
 impl ProgressReporter {
+    /// Creates a new progress reporter for tracking endpoint fetches
+    #[must_use]
     pub fn new(total_endpoints: usize) -> Self {
         Self {
             total_endpoints,

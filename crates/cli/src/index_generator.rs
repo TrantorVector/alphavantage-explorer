@@ -18,6 +18,8 @@ pub struct ExecutionResults {
 }
 
 impl ExecutionResults {
+    /// Creates a new execution results instance with the current timestamp
+    #[must_use]
     pub fn new() -> Self {
         Self {
             market_status: HashMap::new(),
@@ -29,6 +31,13 @@ impl ExecutionResults {
     }
 }
 
+/// Generates an index.md file summarizing execution results
+///
+/// # Errors
+/// Returns error if file creation or writing fails
+///
+/// # Panics
+/// May panic if ticker not found in pre-initialized results map (internal logic error)
 pub fn generate_index(results: &ExecutionResults, out_dir: &Path) -> Result<()> {
     let mut path = out_dir.to_path_buf();
     path.push("index.md");

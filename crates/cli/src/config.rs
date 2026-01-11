@@ -22,6 +22,10 @@ pub struct Config {
 }
 
 impl Config {
+    /// Creates a configuration from CLI arguments
+    ///
+    /// # Errors
+    /// Returns error if API key is required but not provided in live mode
     pub fn from_args(args: CliArgs) -> Result<Self> {
         let client_mode = if args.live_api {
             ClientMode::Live
