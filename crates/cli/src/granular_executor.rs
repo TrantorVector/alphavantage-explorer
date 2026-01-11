@@ -1,7 +1,7 @@
 use crate::cli_args::Commands;
 use crate::config::Config;
 use alphavantage_client::{CsvHandler, FileSystemJsonPersister, MarkdownWriterImpl};
-use alphavantage_core::domain::{EndpointName, TickerSymbol};
+use alphavantage_core::domain::{EndpointName, QuarterParam, TickerSymbol};
 use alphavantage_core::error::Result;
 use alphavantage_core::logic::json_to_table::parse_json_to_tables;
 use alphavantage_core::ports::{ApiClient, JsonPersister, MarkdownWriter};
@@ -26,12 +26,12 @@ impl<'a> GranularExecutor<'a> {
     /// # Errors
     /// Returns error if API call fails, file I/O fails, or parsing fails
     pub async fn execute(&self, command: &Commands) -> Result<()> {
-        let (endpoint, symbol, _params, output_dir) = Self::route_command(command);
+        let (endpoint, symbol, params, output_dir) = Self::route_command(command);
 
         // Make API call (note: API client returns JSON Value, not raw string for now)
         let json_value = self
             .client
-            .fetch_ticker_endpoint(endpoint, &symbol, &self.config.api_key)
+            .fetch_ticker_endpoint(endpoint, &symbol, Some(&params), &self.config.api_key)
             .await?;
 
         // Generate timestamped filename
@@ -147,7 +147,13 @@ impl<'a> GranularExecutor<'a> {
                     params.insert("year".to_string(), y.to_string());
                 }
                 if let Some(q) = quarter {
-                    params.insert("quarter".to_string(), q.to_string());
+                    let q_num = match q {
+                        QuarterParam::Q1 => "1",
+                        QuarterParam::Q2 => "2",
+                        QuarterParam::Q3 => "3",
+                        QuarterParam::Q4 => "4",
+                    };
+                    params.insert("quarter".to_string(), q_num.to_string());
                 }
                 (
                     EndpointName::EarningsCallTranscript,

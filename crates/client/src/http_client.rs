@@ -55,9 +55,10 @@ impl ApiClient for AlphaVantageClient {
         &self,
         endpoint: EndpointName,
         ticker: &TickerSymbol,
+        params: Option<&std::collections::HashMap<String, String>>,
         api_key: &ApiKey,
     ) -> Result<serde_json::Value> {
-        self.execute_request(endpoint, Some(ticker.as_str()), api_key)
+        self.execute_request(endpoint, Some(ticker.as_str()), params, api_key)
             .await
     }
 
@@ -67,7 +68,7 @@ impl ApiClient for AlphaVantageClient {
         endpoint: EndpointName,
         api_key: &ApiKey,
     ) -> Result<serde_json::Value> {
-        self.execute_request(endpoint, None, api_key).await
+        self.execute_request(endpoint, None, None, api_key).await
     }
 }
 
@@ -76,6 +77,7 @@ impl AlphaVantageClient {
         &self,
         endpoint: EndpointName,
         symbol: Option<&str>,
+        extra_params: Option<&std::collections::HashMap<String, String>>,
         api_key: &ApiKey,
     ) -> Result<serde_json::Value> {
         let is_demo = api_key.secret() == "demo";
@@ -90,6 +92,8 @@ impl AlphaVantageClient {
         let function = endpoint.function_name();
         let key_str = api_key.secret().to_string();
         let symbol_owned = symbol.map(ToString::to_string);
+        // Clone params for usage in closure
+        let params_owned = extra_params.cloned();
 
         // Execute with retry
         execute_with_retry(move || {
@@ -98,6 +102,7 @@ impl AlphaVantageClient {
             let function = function.to_string();
             let key = key_str.clone();
             let sym = symbol_owned.clone();
+            let params = params_owned.clone();
 
             async move {
                 let mut req = client
@@ -107,8 +112,14 @@ impl AlphaVantageClient {
                 if let Some(s) = &sym {
                     req = req.query(&[("symbol", s)]);
                 }
+                
+                if let Some(p) = &params {
+                    req = req.query(p);
+                }
 
                 let resp = req
+                    .try_clone()
+                    .unwrap()
                     .send()
                     .await
                     .map_err(|e| ExplorerError::Network(e.to_string()))?;

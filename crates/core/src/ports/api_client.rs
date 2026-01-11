@@ -12,6 +12,7 @@ pub trait ApiClient: Send + Sync {
         &self,
         endpoint: EndpointName,
         ticker: &TickerSymbol,
+        params: Option<&std::collections::HashMap<String, String>>,
         api_key: &ApiKey,
     ) -> Result<serde_json::Value>;
 
