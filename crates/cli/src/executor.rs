@@ -20,10 +20,19 @@ pub struct Executor {
 }
 
 impl Executor {
+    /// Creates a new executor with the given configuration
+    #[must_use]
     pub const fn new(config: Config) -> Self {
         Self { config }
     }
 
+    /// Runs the executor to fetch all endpoints for all configured symbols
+    ///
+    /// # Errors
+    /// Returns error if API calls fail, file I/O fails, or markdown generation fails
+    ///
+    /// # Panics
+    /// May panic if ticker symbol not found in pre-initialized results map (internal logic error)
     pub async fn run(&self) -> Result<()> {
         let client = create_client(
             self.config.client_mode,
