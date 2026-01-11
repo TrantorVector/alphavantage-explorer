@@ -1,5 +1,7 @@
 /target
 /out
+/validation
+/test-results
 **/*.rs.bk
 Cargo.lock
 .env
