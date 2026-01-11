@@ -3,7 +3,7 @@ members = ["crates/core", "crates/client", "crates/cli"]
 resolver = "2"
 
 [workspace.package]
-version = "0.1.0"
+version = "0.2.0"
 edition = "2021"
 authors = ["TrantorVector"]
 license = "MIT"
@@ -26,8 +26,8 @@ clap = { version = "4.4", features = ["derive", "env"] }
 toml = "0.8"
 
 # Internal crate dependencies
-alphavantage_core = { path = "crates/core" }
-alphavantage_client = { path = "crates/client" }
+alphavantage_core = { path = "crates/core", version = "0.2.0" }
+alphavantage_client = { path = "crates/client", version = "0.2.0" }
 
 [workspace.lints.rust]
 unsafe_code = "forbid"

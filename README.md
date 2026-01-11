@@ -205,6 +205,22 @@ cargo clippy
 cargo test
 ```
 
+### Development Setup
+
+To prevent pushing code that will fail CI, install the pre-push git hook:
+
+```bash
+# Install git hooks
+git config core.hooksPath .githooks
+```
+
+This will automatically run `cargo fmt --check`, `cargo clippy`, and `cargo test` before every push.
+
+**Quality Gates:**
+- ✅ Code must be formatted (`cargo fmt`)
+- ✅ Clippy must pass with no warnings (`cargo clippy -- -D warnings`)
+- ✅ All tests must pass (`cargo test --workspace`)
+
 ## 📄 License
 
 This project is licensed under the [MIT License](LICENSE).
