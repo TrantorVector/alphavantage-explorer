@@ -267,15 +267,15 @@ Fetch earnings call transcripts.
 
 **Syntax:**
 ```bash
-alphavantage_cli earnings-call-transcript --symbol AAPL [--year 2024] [--quarter Q1] [--output PATH]
+alphavantage_cli earnings-call-transcript --symbol AAPL --year 2024 --quarter Q1 [--output PATH]
 ```
 
 **Required Parameters:**
 - `--symbol, -s`: Stock ticker symbol
-
-**Optional Parameters:**
 - `--year, -y`: Year of earnings call (e.g., 2024)
 - `--quarter, -q`: Quarter: `Q1`, `Q2`, `Q3`, `Q4`
+
+**Optional Parameters:**
 - `--output, -o`: Custom output directory path
 
 **Output Format:** JSON → Markdown table

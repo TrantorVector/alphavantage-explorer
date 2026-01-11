@@ -189,11 +189,11 @@ pub enum Commands {
 
         /// Year of earnings call
         #[arg(short, long)]
-        year: Option<u16>,
+        year: u16,
 
         /// Quarter (Q1, Q2, Q3, Q4)
         #[arg(short, long)]
-        quarter: Option<QuarterParam>,
+        quarter: QuarterParam,
 
         /// Output file path (optional)
         #[arg(short, long)]

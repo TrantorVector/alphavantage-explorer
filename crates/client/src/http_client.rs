@@ -112,14 +112,12 @@ impl AlphaVantageClient {
                 if let Some(s) = &sym {
                     req = req.query(&[("symbol", s)]);
                 }
-                
+
                 if let Some(p) = &params {
                     req = req.query(p);
                 }
 
                 let resp = req
-                    .try_clone()
-                    .unwrap()
                     .send()
                     .await
                     .map_err(|e| ExplorerError::Network(e.to_string()))?;

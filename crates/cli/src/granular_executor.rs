@@ -143,18 +143,15 @@ impl<'a> GranularExecutor<'a> {
                 quarter,
                 output,
             } => {
-                if let Some(y) = year {
-                    params.insert("year".to_string(), y.to_string());
-                }
-                if let Some(q) = quarter {
-                    let q_num = match q {
-                        QuarterParam::Q1 => "1",
-                        QuarterParam::Q2 => "2",
-                        QuarterParam::Q3 => "3",
-                        QuarterParam::Q4 => "4",
-                    };
-                    params.insert("quarter".to_string(), q_num.to_string());
-                }
+                let q_num = match quarter {
+                    QuarterParam::Q1 => "1",
+                    QuarterParam::Q2 => "2",
+                    QuarterParam::Q3 => "3",
+                    QuarterParam::Q4 => "4",
+                };
+                // API expects quarter=YYYYQx (e.g., 2024Q1)
+                let combined_quarter = format!("{year}Q{q_num}");
+                params.insert("quarter".to_string(), combined_quarter);
                 (
                     EndpointName::EarningsCallTranscript,
                     symbol.clone(),

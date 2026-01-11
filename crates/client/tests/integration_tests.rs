@@ -11,7 +11,7 @@ async fn test_mock_client_fixtures() {
     // Test AAPL OVERVIEW
     let ticker = TickerSymbol::new("AAPL").unwrap();
     let resp = client
-        .fetch_ticker_endpoint(EndpointName::Overview, &ticker, &api_key)
+        .fetch_ticker_endpoint(EndpointName::Overview, &ticker, None, &api_key)
         .await;
     if let Err(e) = &resp {
         println!("Error fetching AAPL OVERVIEW: {e:?}");
@@ -23,7 +23,7 @@ async fn test_mock_client_fixtures() {
 
     // Test AAPL INCOME_STATEMENT
     let resp = client
-        .fetch_ticker_endpoint(EndpointName::IncomeStatement, &ticker, &api_key)
+        .fetch_ticker_endpoint(EndpointName::IncomeStatement, &ticker, None, &api_key)
         .await;
     if let Err(e) = &resp {
         println!("Error fetching AAPL INCOME_STATEMENT: {e:?}");

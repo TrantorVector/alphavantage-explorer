@@ -135,8 +135,8 @@ fn test_endpoint_routing_earnings_call_transcript() {
     let symbol = TickerSymbol::new("AAPL").unwrap();
     let cmd = Commands::EarningsCallTranscript {
         symbol: symbol.clone(),
-        year: Some(2024),
-        quarter: Some(QuarterParam::Q1),
+        year: 2024,
+        quarter: QuarterParam::Q1,
         output: None,
     };
 
@@ -148,8 +148,8 @@ fn test_endpoint_routing_earnings_call_transcript() {
             ..
         } => {
             assert_eq!(s.to_string(), "AAPL");
-            assert_eq!(year, Some(2024));
-            assert_eq!(quarter, Some(QuarterParam::Q1));
+            assert_eq!(year, 2024);
+            assert_eq!(quarter, QuarterParam::Q1);
         }
         _ => panic!("Expected EarningsCallTranscript command"),
     }
@@ -254,8 +254,8 @@ fn test_all_endpoint_commands_exist() {
         },
         Commands::EarningsCallTranscript {
             symbol: symbol.clone(),
-            year: None,
-            quarter: None,
+            year: 2024,
+            quarter: alphavantage_core::domain::QuarterParam::Q1,
             output: None,
         },
     ];

@@ -197,8 +197,8 @@ async fn test_granular_earnings_transcript_with_params() {
 
     let cmd = Commands::EarningsCallTranscript {
         symbol,
-        year: Some(2024),
-        quarter: Some(QuarterParam::Q1),
+        year: 2024,
+        quarter: QuarterParam::Q1,
         output: None,
     };
 

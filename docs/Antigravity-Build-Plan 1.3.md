@@ -547,7 +547,7 @@ TASKS:
      - Check raw JSON URL query params
 
 15.4 Test Earnings Call Transcript (EARNINGS_CALL_TRANSCRIPT):
-   - Run: `cargo run --release -- earnings-call-transcript --symbol AAPL --year 2023 --quarter 4 --live-api --output ./validation`
+   - Run: `cargo run --release -- earnings-call-transcript --symbol AAPL --year 2023 --quarter Q4 --live-api --output ./validation`
    - Verify:
      - Raw JSON saved to `validation/raw/earnings_call_transcript_AAPL_{timestamp}.json`
      - Markdown saved to `validation/earnings_call_transcript_AAPL_{timestamp}.md`
