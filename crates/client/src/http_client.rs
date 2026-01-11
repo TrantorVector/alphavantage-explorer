@@ -118,10 +118,39 @@ impl AlphaVantageClient {
                     return Err(ExplorerError::HttpStatus(status.as_u16()));
                 }
 
-                let json: serde_json::Value = resp
-                    .json()
+                // Read response as text first
+                let content_type = resp
+                    .headers()
+                    .get(reqwest::header::CONTENT_TYPE)
+                    .and_then(|h| h.to_str().ok())
+                    .unwrap_or("")
+                    .to_string();
+
+                let text = resp
+                    .text()
                     .await
                     .map_err(|e| ExplorerError::Network(e.to_string()))?;
+
+                // Try parsing as JSON
+                let json: serde_json::Value = match serde_json::from_str(&text) {
+                    Ok(v) => v,
+                    Err(_) => {
+                        // If parsing fails, check if it looks like CSV or if Content-Type indicates CSV
+                        if content_type.contains("text/csv")
+                            || content_type.contains("application/csv")
+                            || text.contains(',')
+                        {
+                            // Wrap CSV in a special JSON structure so we can pass it through the existing pipeline
+                            serde_json::json!({ "csv_content": text })
+                        } else {
+                            // If it's not JSON and not obviously CSV, return the parse error (or the text wrapped?)
+                            // Better to error out if we can't understand it, unless it's a raw error message
+                            return Err(ExplorerError::Network(format!(
+                                "Failed to parse response as JSON: {text}"
+                            )));
+                        }
+                    }
+                };
 
                 // Check for API soft errors (200 OK but body has Error)
                 if let Some(err_msg) = json.get("Error Message") {

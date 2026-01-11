@@ -34,9 +34,6 @@ impl<'a> GranularExecutor<'a> {
             .fetch_ticker_endpoint(endpoint, &symbol, &self.config.api_key)
             .await?;
 
-        // Convert to string for consistency with bulk mode
-        let response = serde_json::to_string_pretty(&json_value)?;
-
         // Generate timestamped filename
         let timestamp = generate_timestamp();
         let endpoint_name = format!("{endpoint}").to_lowercase().replace('_', "-");
@@ -44,6 +41,15 @@ impl<'a> GranularExecutor<'a> {
 
         // Determine output directory (use custom or default)
         let out_dir = output_dir.unwrap_or_else(|| self.config.out_dir.clone());
+
+        // Check for wrapped CSV content from standard client
+        if let Some(csv_content) = json_value.get("csv_content").and_then(|v| v.as_str()) {
+            Self::handle_csv_output(csv_content, &base_filename, &out_dir)?;
+            return Ok(());
+        }
+
+        // Convert to string for consistency with bulk mode
+        let response = serde_json::to_string_pretty(&json_value)?;
 
         // Handle response based on type (JSON vs CSV)
         #[allow(clippy::single_match_else)]
