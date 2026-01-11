@@ -13,6 +13,8 @@ jobs:
   build:
     name: Build & Test
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true  # Fail fast on first error
     steps:
       - uses: actions/checkout@v4
 
@@ -27,14 +29,24 @@ jobs:
           command: check
           arguments: --workspace
 
+      # Step 1: Check formatting FIRST (before clippy)
       - name: Check Formatting
-        run: cargo fmt --check
+        run: cargo fmt --all -- --check
 
+      # Step 2: Run clippy with all targets and features
       - name: Lint with Clippy
-        run: cargo clippy --workspace -- -D warnings
+        run: cargo clippy --all-targets --all-features -- -D warnings
 
+      # Step 3: Run all tests with all features
       - name: Run Tests
-        run: cargo test --workspace
+        run: cargo test --workspace --all-features
 
+      # Step 4: Build release binary
       - name: Build Release
         run: cargo build --release
+
+      # Step 5: Verify binary version
+      - name: Verify Binary Version
+        run: |
+          ./target/release/alphavantage_cli --version
+          echo "✅ Release binary built successfully"

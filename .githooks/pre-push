@@ -1,0 +1,36 @@
+#!/bin/bash
+# Pre-push hook to ensure code quality before pushing to remote
+# Install with: git config core.hooksPath .githooks
+
+set -e  # Exit on first error
+
+echo "🔍 Running pre-push checks..."
+
+# Check 1: Formatting
+echo "📝 Checking code formatting..."
+if ! cargo fmt --all -- --check; then
+    echo "❌ Code formatting check failed!"
+    echo "💡 Run 'cargo fmt --all' to fix formatting issues"
+    exit 1
+fi
+echo "✅ Formatting check passed"
+
+# Check 2: Clippy
+echo "🔎 Running clippy lints..."
+if ! cargo clippy --all-targets --all-features -- -D warnings; then
+    echo "❌ Clippy found issues!"
+    echo "💡 Fix clippy warnings before pushing"
+    exit 1
+fi
+echo "✅ Clippy check passed"
+
+# Check 3: Tests
+echo "🧪 Running tests..."
+if ! cargo test --workspace; then
+    echo "❌ Some tests failed!"
+    echo "💡 Fix failing tests before pushing"
+    exit 1
+fi
+echo "✅ All tests passed"
+
+echo "🎉 All pre-push checks passed! Proceeding with push..."
