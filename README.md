@@ -195,6 +195,42 @@ min_delay_ms = 1000
 - **crates/client**: `reqwest` HTTP client, Rate Limiter, and Persistence.
 - **crates/cli**: Command-line interface and Orchestration.
 
+## 🧪 Testing
+
+The project includes comprehensive test coverage to ensure reliability and accuracy:
+
+### Golden Copy Validation Tests
+
+Validates API client implementations against official Alpha Vantage documentation outputs:
+- **Coverage**: 11 fundamental data API endpoints
+- **Method**: 100% exact JSON matching
+- **Location**: `crates/client/tests/golden_copy_validation.rs`
+
+Run golden copy tests:
+```bash
+# Run all golden copy tests
+cargo test --package alphavantage_client --test golden_copy_validation -- --ignored --nocapture
+
+# Run specific function test
+cargo test --package alphavantage_client --test golden_copy_validation test_overview_golden_copy -- --ignored --nocapture
+```
+
+> **Note:** Golden copy tests are marked with `#[ignore]` to prevent accidental execution during regular test runs. They require a valid `ALPHAVANTAGE_API_KEY` environment variable and respect API rate limits (12-second delays between tests).
+
+**For detailed testing documentation, see:** [`docs/testing/GOLDEN_COPY_TESTING.md`](docs/testing/GOLDEN_COPY_TESTING.md)
+
+### Unit and Integration Tests
+
+Run the full test suite:
+```bash
+cargo test --workspace
+```
+
+**Quality Gates:**
+- ✅ Code must be formatted (`cargo fmt`)
+- ✅ Clippy must pass with no warnings (`cargo clippy -- -D warnings`)
+- ✅ All tests must pass (`cargo test --workspace`)
+
 ## 🤝 Contributing
 
 Contributions are welcome! Please ensure you run the quality checks before submitting a PR:
