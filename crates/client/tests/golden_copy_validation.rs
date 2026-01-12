@@ -1,7 +1,7 @@
 // Golden Copy Validation Tests
 // These tests validate API responses against golden copy outputs from Alpha Vantage documentation
 //
-// IMPORTANT: These tests are marked with #[ignore] to prevent accidental execution
+// IMPORTANT: These tests are marked with #[ignore = "Requires API key and consumes API quota"] to prevent accidental execution
 // Run with: cargo test --test golden_copy_validation -- --ignored --nocapture
 //
 // RATE LIMITING: Tests include 12-second delays between calls to respect API rate limits
@@ -116,7 +116,7 @@ async fn execute_test(
 }
 
 #[tokio::test]
-#[ignore]
+#[ignore = "Requires API key and consumes API quota"]
 async fn test_overview_golden_copy() -> Result<()> {
     let params = parse_input_parameters("overview")?;
 
@@ -134,7 +134,7 @@ async fn test_overview_golden_copy() -> Result<()> {
 }
 
 #[tokio::test]
-#[ignore]
+#[ignore = "Requires API key and consumes API quota"]
 async fn test_balance_sheet_golden_copy() -> Result<()> {
     let params = parse_input_parameters("balance-sheet")?;
 
@@ -152,7 +152,7 @@ async fn test_balance_sheet_golden_copy() -> Result<()> {
 }
 
 #[tokio::test]
-#[ignore]
+#[ignore = "Requires API key and consumes API quota"]
 async fn test_cash_flow_golden_copy() -> Result<()> {
     let params = parse_input_parameters("cash-flow")?;
 
@@ -170,7 +170,7 @@ async fn test_cash_flow_golden_copy() -> Result<()> {
 }
 
 #[tokio::test]
-#[ignore]
+#[ignore = "Requires API key and consumes API quota"]
 async fn test_income_statement_golden_copy() -> Result<()> {
     let params = parse_input_parameters("income-statement")?;
 
@@ -188,7 +188,7 @@ async fn test_income_statement_golden_copy() -> Result<()> {
 }
 
 #[tokio::test]
-#[ignore]
+#[ignore = "Requires API key and consumes API quota"]
 async fn test_earnings_golden_copy() -> Result<()> {
     let params = parse_input_parameters("earnings")?;
 
@@ -206,7 +206,7 @@ async fn test_earnings_golden_copy() -> Result<()> {
 }
 
 #[tokio::test]
-#[ignore]
+#[ignore = "Requires API key and consumes API quota"]
 async fn test_earnings_estimates_golden_copy() -> Result<()> {
     let params = parse_input_parameters("earnings-estimates")?;
 
@@ -224,7 +224,7 @@ async fn test_earnings_estimates_golden_copy() -> Result<()> {
 }
 
 #[tokio::test]
-#[ignore]
+#[ignore = "Requires API key and consumes API quota"]
 async fn test_earnings_call_transcript_golden_copy() -> Result<()> {
     let params = parse_input_parameters("earnings-call-transcript")?;
 
@@ -249,7 +249,7 @@ async fn test_earnings_call_transcript_golden_copy() -> Result<()> {
 }
 
 #[tokio::test]
-#[ignore]
+#[ignore = "Requires API key and consumes API quota"]
 async fn test_dividends_golden_copy() -> Result<()> {
     let params = parse_input_parameters("dividends")?;
 
@@ -267,7 +267,7 @@ async fn test_dividends_golden_copy() -> Result<()> {
 }
 
 #[tokio::test]
-#[ignore]
+#[ignore = "Requires API key and consumes API quota"]
 async fn test_splits_golden_copy() -> Result<()> {
     let params = parse_input_parameters("splits")?;
 
@@ -285,7 +285,7 @@ async fn test_splits_golden_copy() -> Result<()> {
 }
 
 #[tokio::test]
-#[ignore]
+#[ignore = "Requires API key and consumes API quota"]
 async fn test_shares_outstanding_golden_copy() -> Result<()> {
     let params = parse_input_parameters("shares-outstanding")?;
 
@@ -309,7 +309,7 @@ async fn test_shares_outstanding_golden_copy() -> Result<()> {
 }
 
 #[tokio::test]
-#[ignore]
+#[ignore = "Requires API key and consumes API quota"]
 async fn test_insider_transactions_golden_copy() -> Result<()> {
     let params = parse_input_parameters("insider-transactions")?;
 
