@@ -22,22 +22,22 @@ pub struct ComparisonResult {
 /// Load golden copy JSON output file
 pub fn load_golden_copy(function_name: &str) -> Result<Value> {
     let mut path = get_golden_copy_dir();
-    
+
     // Handle special case: income statement has a typo in the filename
     let filename = if function_name == "income-statement" {
         "inome-statement-output.json"
     } else {
         &format!("{}-output.json", function_name)
     };
-    
+
     path.push(filename);
-    
+
     let content = fs::read_to_string(&path)
         .with_context(|| format!("Failed to read golden copy file: {:?}", path))?;
-    
+
     let json: Value = serde_json::from_str(&content)
         .with_context(|| format!("Failed to parse JSON from: {:?}", path))?;
-    
+
     Ok(json)
 }
 
@@ -45,10 +45,10 @@ pub fn load_golden_copy(function_name: &str) -> Result<Value> {
 pub fn parse_input_parameters(function_name: &str) -> Result<TestParameters> {
     let mut path = get_golden_copy_dir();
     path.push(format!("{}-input.txt", function_name));
-    
+
     let content = fs::read_to_string(&path)
         .with_context(|| format!("Failed to read input file: {:?}", path))?;
-    
+
     // Extract symbol from content
     let symbol = if content.contains("symbol=IBM") {
         "IBM".to_string()
@@ -58,21 +58,21 @@ pub fn parse_input_parameters(function_name: &str) -> Result<TestParameters> {
         // Default to IBM if not explicitly specified
         "IBM".to_string()
     };
-    
+
     // Extract quarter if present (only for EARNINGS_CALL_TRANSCRIPT)
     let quarter = if content.contains("quarter=2024Q1") {
         Some("2024Q1".to_string())
     } else {
         None
     };
-    
+
     // Check if datatype is mentioned (optional parameter)
     let datatype = if content.contains("datatype=json") {
         Some("json".to_string())
     } else {
         None
     };
-    
+
     Ok(TestParameters {
         symbol,
         quarter,
@@ -84,7 +84,7 @@ pub fn parse_input_parameters(function_name: &str) -> Result<TestParameters> {
 pub fn compare_json_exact(actual: &Value, expected: &Value) -> ComparisonResult {
     let mut differences = Vec::new();
     compare_json_recursive(actual, expected, "", &mut differences);
-    
+
     ComparisonResult {
         matches: differences.is_empty(),
         differences,
@@ -103,23 +103,17 @@ fn compare_json_recursive(
             // Check for missing keys in actual
             for key in expected_obj.keys() {
                 if !actual_obj.contains_key(key) {
-                    differences.push(format!(
-                        "{}.{}: Missing key in actual response",
-                        path, key
-                    ));
+                    differences.push(format!("{}.{}: Missing key in actual response", path, key));
                 }
             }
-            
+
             // Check for extra keys in actual
             for key in actual_obj.keys() {
                 if !expected_obj.contains_key(key) {
-                    differences.push(format!(
-                        "{}.{}: Extra key in actual response",
-                        path, key
-                    ));
+                    differences.push(format!("{}.{}: Extra key in actual response", path, key));
                 }
             }
-            
+
             // Compare common keys
             for (key, expected_val) in expected_obj {
                 if let Some(actual_val) = actual_obj.get(key) {
@@ -142,7 +136,7 @@ fn compare_json_recursive(
                 ));
                 return;
             }
-            
+
             for (i, (actual_elem, expected_elem)) in
                 actual_arr.iter().zip(expected_arr.iter()).enumerate()
             {
@@ -207,7 +201,7 @@ mod tests {
     fn test_compare_json_exact_equal() {
         let json1 = serde_json::json!({"a": 1, "b": "test"});
         let json2 = serde_json::json!({"a": 1, "b": "test"});
-        
+
         let result = compare_json_exact(&json1, &json2);
         assert!(result.matches);
         assert!(result.differences.is_empty());
@@ -217,7 +211,7 @@ mod tests {
     fn test_compare_json_exact_different() {
         let json1 = serde_json::json!({"a": 1, "b": "test"});
         let json2 = serde_json::json!({"a": 2, "b": "test"});
-        
+
         let result = compare_json_exact(&json1, &json2);
         assert!(!result.matches);
         assert!(!result.differences.is_empty());

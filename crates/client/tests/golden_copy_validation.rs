@@ -23,7 +23,7 @@ use golden_copy_helper::{compare_json_exact, load_golden_copy, parse_input_param
 fn get_api_key() -> Result<ApiKey> {
     let key_str = env::var("ALPHAVANTAGE_API_KEY")
         .expect("ALPHAVANTAGE_API_KEY environment variable must be set");
-    
+
     Ok(ApiKey::new(key_str))
 }
 
@@ -51,33 +51,37 @@ async fn execute_test(
     println!("\n{}", "=".repeat(60));
     println!("🧪 Testing: {}", test_name);
     println!("{}", "=".repeat(60));
-    
+
     // Load golden copy
     println!("📖 Loading golden copy for: {}", function_name);
     let expected = load_golden_copy(function_name)?;
-    
+
     // Create client and API key
     let client = create_client();
     let api_key = get_api_key()?;
     let ticker = TickerSymbol::new(symbol.to_string())?;
-    
-    println!("📝 Parameters: endpoint={}, symbol={}", endpoint.function_name(), symbol);
+
+    println!(
+        "📝 Parameters: endpoint={}, symbol={}",
+        endpoint.function_name(),
+        symbol
+    );
     if let Some(ref params) = extra_params {
         for (k, v) in params {
             println!("    Extra param: {}={}", k, v);
         }
     }
-    
+
     // Execute API call
     println!("🌐 Calling Alpha Vantage API...");
     let actual = client
         .fetch_ticker_endpoint(endpoint, &ticker, extra_params.as_ref(), &api_key)
         .await?;
-    
+
     // Compare results
     println!("🔍 Comparing actual vs expected...");
     let comparison = compare_json_exact(&actual, &expected);
-    
+
     if comparison.matches {
         println!("✅ PASS: Output matches golden copy exactly!");
     } else {
@@ -86,11 +90,14 @@ async fn execute_test(
         for (i, diff) in comparison.differences.iter().enumerate() {
             println!("  {}. {}", i + 1, diff);
             if i >= 9 {
-                println!("  ... and {} more differences", comparison.differences.len() - 10);
+                println!(
+                    "  ... and {} more differences",
+                    comparison.differences.len() - 10
+                );
                 break;
             }
         }
-        
+
         // Write detailed diff to file for analysis
         std::fs::create_dir_all("test-results")?;
         let diff_file = format!("test-results/{}-diff.txt", function_name);
@@ -99,10 +106,10 @@ async fn execute_test(
         } else {
             println!("\n📄 Full diff written to: {}", diff_file);
         }
-        
+
         anyhow::bail!("Golden copy validation failed for {}", test_name);
     }
-    
+
     Ok(())
 }
 
@@ -110,7 +117,7 @@ async fn execute_test(
 #[ignore]
 async fn test_overview_golden_copy() -> Result<()> {
     let params = parse_input_parameters("overview")?;
-    
+
     execute_test(
         "OVERVIEW",
         "overview",
@@ -119,7 +126,7 @@ async fn test_overview_golden_copy() -> Result<()> {
         None,
     )
     .await?;
-    
+
     rate_limit_delay().await;
     Ok(())
 }
@@ -128,7 +135,7 @@ async fn test_overview_golden_copy() -> Result<()> {
 #[ignore]
 async fn test_balance_sheet_golden_copy() -> Result<()> {
     let params = parse_input_parameters("balance-sheet")?;
-    
+
     execute_test(
         "BALANCE_SHEET",
         "balance-sheet",
@@ -137,7 +144,7 @@ async fn test_balance_sheet_golden_copy() -> Result<()> {
         None,
     )
     .await?;
-    
+
     rate_limit_delay().await;
     Ok(())
 }
@@ -146,7 +153,7 @@ async fn test_balance_sheet_golden_copy() -> Result<()> {
 #[ignore]
 async fn test_cash_flow_golden_copy() -> Result<()> {
     let params = parse_input_parameters("cash-flow")?;
-    
+
     execute_test(
         "CASH_FLOW",
         "cash-flow",
@@ -155,7 +162,7 @@ async fn test_cash_flow_golden_copy() -> Result<()> {
         None,
     )
     .await?;
-    
+
     rate_limit_delay().await;
     Ok(())
 }
@@ -164,7 +171,7 @@ async fn test_cash_flow_golden_copy() -> Result<()> {
 #[ignore]
 async fn test_income_statement_golden_copy() -> Result<()> {
     let params = parse_input_parameters("income-statement")?;
-    
+
     execute_test(
         "INCOME_STATEMENT",
         "income-statement",
@@ -173,7 +180,7 @@ async fn test_income_statement_golden_copy() -> Result<()> {
         None,
     )
     .await?;
-    
+
     rate_limit_delay().await;
     Ok(())
 }
@@ -182,7 +189,7 @@ async fn test_income_statement_golden_copy() -> Result<()> {
 #[ignore]
 async fn test_earnings_golden_copy() -> Result<()> {
     let params = parse_input_parameters("earnings")?;
-    
+
     execute_test(
         "EARNINGS",
         "earnings",
@@ -191,7 +198,7 @@ async fn test_earnings_golden_copy() -> Result<()> {
         None,
     )
     .await?;
-    
+
     rate_limit_delay().await;
     Ok(())
 }
@@ -200,7 +207,7 @@ async fn test_earnings_golden_copy() -> Result<()> {
 #[ignore]
 async fn test_earnings_estimates_golden_copy() -> Result<()> {
     let params = parse_input_parameters("earnings-estimates")?;
-    
+
     execute_test(
         "EARNINGS_ESTIMATES",
         "earnings-estimates",
@@ -209,7 +216,7 @@ async fn test_earnings_estimates_golden_copy() -> Result<()> {
         None,
     )
     .await?;
-    
+
     rate_limit_delay().await;
     Ok(())
 }
@@ -218,13 +225,14 @@ async fn test_earnings_estimates_golden_copy() -> Result<()> {
 #[ignore]
 async fn test_earnings_call_transcript_golden_copy() -> Result<()> {
     let params = parse_input_parameters("earnings-call-transcript")?;
-    
-    let quarter = params.quarter
+
+    let quarter = params
+        .quarter
         .expect("EARNINGS_CALL_TRANSCRIPT requires quarter parameter");
-    
+
     let mut extra_params = HashMap::new();
     extra_params.insert("quarter".to_string(), quarter);
-    
+
     execute_test(
         "EARNINGS_CALL_TRANSCRIPT",
         "earnings-call-transcript",
@@ -233,7 +241,7 @@ async fn test_earnings_call_transcript_golden_copy() -> Result<()> {
         Some(extra_params),
     )
     .await?;
-    
+
     rate_limit_delay().await;
     Ok(())
 }
@@ -242,7 +250,7 @@ async fn test_earnings_call_transcript_golden_copy() -> Result<()> {
 #[ignore]
 async fn test_dividends_golden_copy() -> Result<()> {
     let params = parse_input_parameters("dividends")?;
-    
+
     execute_test(
         "DIVIDENDS",
         "dividends",
@@ -251,7 +259,7 @@ async fn test_dividends_golden_copy() -> Result<()> {
         None,
     )
     .await?;
-    
+
     rate_limit_delay().await;
     Ok(())
 }
@@ -260,7 +268,7 @@ async fn test_dividends_golden_copy() -> Result<()> {
 #[ignore]
 async fn test_splits_golden_copy() -> Result<()> {
     let params = parse_input_parameters("splits")?;
-    
+
     execute_test(
         "SPLITS",
         "splits",
@@ -269,7 +277,7 @@ async fn test_splits_golden_copy() -> Result<()> {
         None,
     )
     .await?;
-    
+
     rate_limit_delay().await;
     Ok(())
 }
@@ -278,10 +286,13 @@ async fn test_splits_golden_copy() -> Result<()> {
 #[ignore]
 async fn test_shares_outstanding_golden_copy() -> Result<()> {
     let params = parse_input_parameters("shares-outstanding")?;
-    
+
     // Note: This test uses MSFT, not IBM
-    assert_eq!(params.symbol, "MSFT", "shares-outstanding should use MSFT symbol");
-    
+    assert_eq!(
+        params.symbol, "MSFT",
+        "shares-outstanding should use MSFT symbol"
+    );
+
     execute_test(
         "SHARES_OUTSTANDING",
         "shares-outstanding",
@@ -290,7 +301,7 @@ async fn test_shares_outstanding_golden_copy() -> Result<()> {
         None,
     )
     .await?;
-    
+
     rate_limit_delay().await;
     Ok(())
 }
@@ -299,7 +310,7 @@ async fn test_shares_outstanding_golden_copy() -> Result<()> {
 #[ignore]
 async fn test_insider_transactions_golden_copy() -> Result<()> {
     let params = parse_input_parameters("insider-transactions")?;
-    
+
     execute_test(
         "INSIDER_TRANSACTIONS",
         "insider-transactions",
@@ -308,9 +319,7 @@ async fn test_insider_transactions_golden_copy() -> Result<()> {
         None,
     )
     .await?;
-    
+
     rate_limit_delay().await;
     Ok(())
 }
-
-
