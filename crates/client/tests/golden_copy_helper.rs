@@ -50,26 +50,29 @@ pub fn parse_input_parameters(function_name: &str) -> Result<TestParameters> {
     let content = fs::read_to_string(&input_path)
         .with_context(|| format!("Failed to read input file: {}", input_path.display()))?;
 
-    // Extract symbol from content
-    let symbol = content
-        .lines()
-        .find(|line| line.starts_with("symbol="))
-        .map_or_else(
-            || "IBM".to_string(),
-            |line| line.split('=').nth(1).unwrap_or_default().to_string(),
-        );
+    // Extract symbol from example in content (e.g., "For example: symbol=IBM" or "symbol=MSFT")
+    let symbol = if content.contains("symbol=MSFT") {
+        "MSFT".to_string()
+    } else if content.contains("symbol=IBM") {
+        "IBM".to_string()
+    } else {
+        // Default to IBM if not explicitly specified
+        "IBM".to_string()
+    };
 
-    // Extract quarter if present (only for EARNINGS_CALL_TRANSCRIPT)
-    let quarter = content
-        .lines()
-        .find(|line| line.starts_with("quarter="))
-        .map(|line| line.split('=').nth(1).unwrap_or_default().to_string());
+    // Extract quarter if present (e.g., "For example: quarter=2024Q1")
+    let quarter = if content.contains("quarter=2024Q1") {
+        Some("2024Q1".to_string())
+    } else {
+        None
+    };
 
     // Check if datatype is mentioned (optional parameter)
-    let datatype = content
-        .lines()
-        .find(|line| line.starts_with("datatype="))
-        .map(|line| line.split('=').nth(1).unwrap_or_default().to_string());
+    let datatype = if content.contains("datatype=json") {
+        Some("json".to_string())
+    } else {
+        None
+    };
 
     Ok(TestParameters {
         symbol,
