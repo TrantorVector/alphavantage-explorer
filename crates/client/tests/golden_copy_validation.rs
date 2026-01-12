@@ -21,8 +21,10 @@ use golden_copy_helper::{compare_json_exact, load_golden_copy, parse_input_param
 
 /// Helper function to create an API client with API key from environment
 fn get_api_key() -> ApiKey {
-    let key_str = env::var("ALPHAVANTAGE_API_KEY")
-        .unwrap_or_else(|_| panic!("ALPHAVANTAGE_API_KEY environment variable must be set"));
+    let key_str = env::var("ALPHAVANTAGE_API_KEY").unwrap_or_else(|_| {
+        eprintln!("ERROR: ALPHAVANTAGE_API_KEY environment variable must be set");
+        std::process::exit(1);
+    });
 
     ApiKey::new(key_str)
 }
@@ -228,7 +230,7 @@ async fn test_earnings_call_transcript_golden_copy() -> Result<()> {
 
     let quarter = params
         .quarter
-        .unwrap_or_else(|| panic!("EARNINGS_CALL_TRANSCRIPT requires quarter parameter"));
+        .ok_or_else(|| anyhow::anyhow!("EARNINGS_CALL_TRANSCRIPT requires quarter parameter"))?;
 
     let mut extra_params = HashMap::new();
     extra_params.insert("quarter".to_string(), quarter);
