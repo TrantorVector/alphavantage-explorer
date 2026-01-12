@@ -9,6 +9,7 @@ use std::path::PathBuf;
 pub struct TestParameters {
     pub symbol: String,
     pub quarter: Option<String>,
+    #[allow(dead_code)]
     pub datatype: Option<String>,
 }
 
@@ -21,16 +22,13 @@ pub struct ComparisonResult {
 
 /// Load golden copy JSON output file
 pub fn load_golden_copy(function_name: &str) -> Result<Value> {
-    let mut path = get_golden_copy_dir();
-
-    // Handle special case: income statement has a typo in the filename
     let filename = if function_name == "income-statement" {
         "inome-statement-output.json"
     } else {
-        &format!("{}-output.json", function_name)
+        &format!("{function_name}-output.json")
     };
 
-    path.push(filename);
+    let path = PathBuf::from(format!("../../docs/golden-copy/{filename}"));
 
     let content = fs::read_to_string(&path)
         .with_context(|| format!("Failed to read golden copy file: {:?}", path))?;
@@ -43,35 +41,29 @@ pub fn load_golden_copy(function_name: &str) -> Result<Value> {
 
 /// Parse input parameters from input.txt file
 pub fn parse_input_parameters(function_name: &str) -> Result<TestParameters> {
-    let mut path = get_golden_copy_dir();
-    path.push(format!("{}-input.txt", function_name));
+    let input_path = PathBuf::from(format!("../../docs/golden-copy/{function_name}-input.txt"));
 
-    let content = fs::read_to_string(&path)
-        .with_context(|| format!("Failed to read input file: {:?}", path))?;
+    let content = fs::read_to_string(&input_path)
+        .with_context(|| format!("Failed to read input file: {:?}", input_path))?;
 
     // Extract symbol from content
-    let symbol = if content.contains("symbol=IBM") {
-        "IBM".to_string()
-    } else if content.contains("symbol=MSFT") {
-        "MSFT".to_string()
-    } else {
-        // Default to IBM if not explicitly specified
-        "IBM".to_string()
-    };
+    let symbol = content
+        .lines()
+        .find(|line| line.starts_with("symbol="))
+        .map(|line| line.split('=').nth(1).unwrap_or_default().to_string())
+        .unwrap_or_else(|| "IBM".to_string());
 
     // Extract quarter if present (only for EARNINGS_CALL_TRANSCRIPT)
-    let quarter = if content.contains("quarter=2024Q1") {
-        Some("2024Q1".to_string())
-    } else {
-        None
-    };
+    let quarter = content
+        .lines()
+        .find(|line| line.starts_with("quarter="))
+        .map(|line| line.split('=').nth(1).unwrap_or_default().to_string());
 
     // Check if datatype is mentioned (optional parameter)
-    let datatype = if content.contains("datatype=json") {
-        Some("json".to_string())
-    } else {
-        None
-    };
+    let datatype = content
+        .lines()
+        .find(|line| line.starts_with("datatype="))
+        .map(|line| line.split('=').nth(1).unwrap_or_default().to_string());
 
     Ok(TestParameters {
         symbol,
@@ -103,34 +95,37 @@ fn compare_json_recursive(
             // Check for missing keys in actual
             for key in expected_obj.keys() {
                 if !actual_obj.contains_key(key) {
-                    differences.push(format!("{}.{}: Missing key in actual response", path, key));
+                    differences.push(format!(
+                        "{path}: Missing key in actual - expected key '{key}'"
+                    ));
                 }
             }
 
             // Check for extra keys in actual
             for key in actual_obj.keys() {
                 if !expected_obj.contains_key(key) {
-                    differences.push(format!("{}.{}: Extra key in actual response", path, key));
+                    differences.push(format!(
+                        "{path}: Extra key in actual - unexpected key '{key}'"
+                    ));
                 }
             }
 
             // Compare common keys
             for (key, expected_val) in expected_obj {
                 if let Some(actual_val) = actual_obj.get(key) {
-                    let new_path = if path.is_empty() {
+                    let key_path = if path.is_empty() {
                         key.to_string()
                     } else {
-                        format!("{}.{}", path, key)
+                        format!("{path}.{key}")
                     };
-                    compare_json_recursive(actual_val, expected_val, &new_path, differences);
+                    compare_json_recursive(actual_val, expected_val, &key_path, differences);
                 }
             }
         }
         (Value::Array(actual_arr), Value::Array(expected_arr)) => {
             if actual_arr.len() != expected_arr.len() {
                 differences.push(format!(
-                    "{}: Array length mismatch - expected {}, got {}",
-                    path,
+                    "{path}: Array length mismatch - expected {}, got {}",
                     expected_arr.len(),
                     actual_arr.len()
                 ));
@@ -140,15 +135,15 @@ fn compare_json_recursive(
             for (i, (actual_elem, expected_elem)) in
                 actual_arr.iter().zip(expected_arr.iter()).enumerate()
             {
-                let new_path = format!("{}[{}]", path, i);
-                compare_json_recursive(actual_elem, expected_elem, &new_path, differences);
+                let array_path = format!("{path}[{i}]");
+                compare_json_recursive(actual_elem, expected_elem, &array_path, differences);
             }
         }
         (actual_val, expected_val) => {
             if actual_val != expected_val {
                 differences.push(format!(
-                    "{}: Value mismatch - expected {:?}, got {:?}",
-                    path, expected_val, actual_val
+                    "{path}: Value mismatch - expected {:?}, got {:?}",
+                    expected_val, actual_val
                 ));
             }
         }
@@ -179,21 +174,21 @@ mod tests {
 
     #[test]
     fn test_parse_input_parameters_basic() {
-        let params = parse_input_parameters("overview").expect("Failed to parse");
+        let params = parse_input_parameters("overview").unwrap();
         assert_eq!(params.symbol, "IBM");
         assert!(params.quarter.is_none());
     }
 
     #[test]
     fn test_parse_input_parameters_with_quarter() {
-        let params = parse_input_parameters("earnings-call-transcript").expect("Failed to parse");
+        let params = parse_input_parameters("earnings-call-transcript").unwrap();
         assert_eq!(params.symbol, "IBM");
         assert_eq!(params.quarter, Some("2024Q1".to_string()));
     }
 
     #[test]
     fn test_parse_input_parameters_msft() {
-        let params = parse_input_parameters("shares-outstanding").expect("Failed to parse");
+        let params = parse_input_parameters("shares-outstanding").unwrap();
         assert_eq!(params.symbol, "MSFT");
     }
 

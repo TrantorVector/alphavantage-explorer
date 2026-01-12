@@ -20,11 +20,11 @@ mod golden_copy_helper;
 use golden_copy_helper::{compare_json_exact, load_golden_copy, parse_input_parameters};
 
 /// Helper function to create an API client with API key from environment
-fn get_api_key() -> Result<ApiKey> {
+fn get_api_key() -> ApiKey {
     let key_str = env::var("ALPHAVANTAGE_API_KEY")
-        .expect("ALPHAVANTAGE_API_KEY environment variable must be set");
+        .unwrap_or_else(|_| panic!("ALPHAVANTAGE_API_KEY environment variable must be set"));
 
-    Ok(ApiKey::new(key_str))
+    ApiKey::new(key_str)
 }
 
 /// Helper function to create the HTTP client
@@ -49,16 +49,16 @@ async fn execute_test(
     extra_params: Option<HashMap<String, String>>,
 ) -> Result<()> {
     println!("\n{}", "=".repeat(60));
-    println!("🧪 Testing: {}", test_name);
+    println!("🧪 Testing: {test_name}");
     println!("{}", "=".repeat(60));
 
     // Load golden copy
-    println!("📖 Loading golden copy for: {}", function_name);
+    println!("📖 Loading golden copy for: {function_name}");
     let expected = load_golden_copy(function_name)?;
 
     // Create client and API key
     let client = create_client();
-    let api_key = get_api_key()?;
+    let api_key = get_api_key();
     let ticker = TickerSymbol::new(symbol.to_string())?;
 
     println!(
@@ -68,7 +68,7 @@ async fn execute_test(
     );
     if let Some(ref params) = extra_params {
         for (k, v) in params {
-            println!("    Extra param: {}={}", k, v);
+            println!("    Extra param: {k}={v}");
         }
     }
 
@@ -100,14 +100,14 @@ async fn execute_test(
 
         // Write detailed diff to file for analysis
         std::fs::create_dir_all("test-results")?;
-        let diff_file = format!("test-results/{}-diff.txt", function_name);
+        let diff_file = format!("test-results/{function_name}-diff.txt");
         if let Err(e) = std::fs::write(&diff_file, comparison.differences.join("\n")) {
-            eprintln!("Warning: Could not write diff file: {}", e);
+            eprintln!("Warning: Could not write diff file: {e}");
         } else {
-            println!("\n📄 Full diff written to: {}", diff_file);
+            println!("\n📄 Full diff written to: {diff_file}");
         }
 
-        anyhow::bail!("Golden copy validation failed for {}", test_name);
+        anyhow::bail!("Golden copy validation failed for {test_name}");
     }
 
     Ok(())
@@ -228,7 +228,7 @@ async fn test_earnings_call_transcript_golden_copy() -> Result<()> {
 
     let quarter = params
         .quarter
-        .expect("EARNINGS_CALL_TRANSCRIPT requires quarter parameter");
+        .unwrap_or_else(|| panic!("EARNINGS_CALL_TRANSCRIPT requires quarter parameter"));
 
     let mut extra_params = HashMap::new();
     extra_params.insert("quarter".to_string(), quarter);
